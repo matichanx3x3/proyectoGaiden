@@ -1,0 +1,232 @@
+{
+  "main": {
+    "id": "7be371b7657ad1be",
+    "type": "split",
+    "children": [
+      {
+        "id": "fa8da8c757ee0a5b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "930d2b641a34d7d4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "00 - Indice/00 - MOC (Map of Content) - Arquitectura Gaiden Unity.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "00 - MOC (Map of Content) - Arquitectura Gaiden Unity"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "8de6c87866402e99",
+    "type": "split",
+    "children": [
+      {
+        "id": "fdfd57765247e9a3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9540ef6fa43bdc0c",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de archivos"
+            }
+          },
+          {
+            "id": "e6ab623f310f73ca",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Buscar"
+            }
+          },
+          {
+            "id": "cf6b77b7f8b3d942",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "cefe41471abbde51",
+    "type": "split",
+    "children": [
+      {
+        "id": "b01386d9bd0b2b65",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fe847308375dc413",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "00 - Indice/00 - MOC (Map of Content) - Arquitectura Gaiden Unity.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Enlaces entrantes"
+            }
+          },
+          {
+            "id": "3bfb556057257ded",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "00 - Indice/00 - MOC (Map of Content) - Arquitectura Gaiden Unity.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Enlaces salientes"
+            }
+          },
+          {
+            "id": "3426d9bc9b6d5b4d",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "f848cd9317b00d8c",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas las propiedades"
+            }
+          },
+          {
+            "id": "ef6d46dc9dc9bff5",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "00 - Indice/00 - MOC (Map of Content) - Arquitectura Gaiden Unity.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Esquema"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir selector rápido": false,
+      "graph:Abrir vista gráfica": false,
+      "canvas:Crear nuevo lienzo": false,
+      "daily-notes:Abrir la nota de hoy": false,
+      "templates:Insertar plantilla": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Crear nueva base": false
+    }
+  },
+  "active": "930d2b641a34d7d4",
+  "lastOpenFiles": [
+    "Bienvenido.md",
+    "04 - Fundamentos Teoricos y Diseno/04.5 - Arquitectura Basada en Eventos y Delegados.md",
+    "04 - Fundamentos Teoricos y Diseno/04.4 - Genericos y Colecciones en el Motor de Juego.md",
+    "04 - Fundamentos Teoricos y Diseno/04.3 - Herencia e Interfaces en la Arquitectura.md",
+    "04 - Fundamentos Teoricos y Diseno/04.2 - Programacion Orientada a Objetos en CSharp.md",
+    "04 - Fundamentos Teoricos y Diseno/04.1 - Diseno de Sistemas RPG y Survival Horror.md",
+    "04 - Fundamentos Teoricos y Diseno",
+    "06 - Diagramas y Canvas/Gaiden_Architecture.canvas",
+    "06 - Diagramas y Canvas/06.1 - Diagramas Mermaid de Arquitectura.md",
+    "06 - Diagramas y Canvas",
+    "05 - Scripts C# (Arquitectura Unity)/Utilities/Interfaces.cs",
+    "05 - Scripts C# (Arquitectura Unity)/Utilities/Helpers.cs",
+    "05 - Scripts C# (Arquitectura Unity)/Units/UnitBase.cs",
+    "05 - Scripts C# (Arquitectura Unity)/Units/HeroUnit.cs",
+    "05 - Scripts C# (Arquitectura Unity)/Units/EnemyOverworldUnit.cs",
+    "05 - Scripts C# (Arquitectura Unity)/Scriptables/ScriptableWeapon.cs",
+    "05 - Scripts C# (Arquitectura Unity)/Scriptables/ScriptableItem.cs",
+    "05 - Scripts C# (Arquitectura Unity)/Scriptables/ScriptableHero.cs",
+    "05 - Scripts C# (Arquitectura Unity)/05 - Indice de Scripts C# y Especificaciones.md",
+    "04 - Fundamentos POO (Clases)/04.5 - Tema 5 - Delegados y Eventos.md",
+    "04 - Fundamentos POO (Clases)/04.3 - Tema 3 - Herencia e Interfaces en Arquitectura Unity.md",
+    "04 - Fundamentos POO (Clases)/04.4 - Tema 4 - Genericos y Colecciones en el Motor de Juego.md",
+    "04 - Fundamentos POO (Clases)/04.2 - Tema 2 - Programacion Orientada a Objetos en CSharp.md",
+    "04 - Fundamentos POO (Clases)/04.1 - Tema 1 - Introduccion a RPGs y Mecanicas de Supervivencia.md",
+    "03 - Mecanicas Gaiden/03.6 - Sistema de Enemigos e IA de Turnos (Enemy AI & Interval Timers).md",
+    "03 - Mecanicas Gaiden/03.5 - Sistema de Inventario y Gestion de Recursos (Inventory, Herbs, Keys).md",
+    "03 - Mecanicas Gaiden/03.4 - Sistema de Armas y Balistica (Weapons, Ammo & Damage Formula).md",
+    "03 - Mecanicas Gaiden/03.3 - Sistema de Grupo y Personajes (Party System - Barry, Leon, Lucia).md",
+    "03 - Mecanicas Gaiden/03.2 - Sistema de Combate y Reticula Oscilante (Combat Engine & Reticle).md",
+    "03 - Mecanicas Gaiden/03.1 - Sistema de Exploracion 2D (Exploration Controller, Grid, Room Transitions).md",
+    "02 - Core Systems/02.7 - Utilidades y Extensiones (Helpers & Extensions).md",
+    "02 - Core Systems/02.6 - Gestor de Unidades y Spawning (UnitManager).md",
+    "02 - Core Systems/02.5 - Sistema de Audio 2D-3D (AudioSystem).md",
+    "02 - Core Systems/02.4 - Sistema de Recursos y ScriptableObjects (ResourceSystem & Scriptables).md",
+    "02 - Core Systems/02.3 - Sistemas Persistentes y Bootstrap (Systems Container).md",
+    "02 - Core Systems/02.2 - Game Manager y Arquitectura de Estados (GameManager).md",
+    "02 - Core Systems/02.1 - Patron Singleton y Gestores (StaticInstance, Singleton, PersistentSingleton).md",
+    "Gaiden_Architecture.canvas"
+  ]
+}
