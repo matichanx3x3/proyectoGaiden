@@ -11,26 +11,14 @@
             "id": "930d2b641a34d7d4",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "00 - Indice/00 - MOC (Map of Content) - Arquitectura Gaiden Unity.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Nueva pestaña"
-            }
-          }
-        ]
-      },
-      {
-        "id": "ca4d0f43a4d99eb2",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "94cc544d28202ad4",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Vista gráfica"
+              "title": "00 - MOC (Map of Content) - Arquitectura Gaiden Unity"
             }
           }
         ]
@@ -198,8 +186,10 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "9540ef6fa43bdc0c",
+  "active": "930d2b641a34d7d4",
   "lastOpenFiles": [
+    "Gaiden_Architecture.canvas",
+    "README.md",
     "Bienvenido.md"
   ]
 }

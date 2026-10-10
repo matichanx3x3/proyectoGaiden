@@ -1,216 +1,29 @@
 {
-  "nodes": [
-    {
-      "id": "node_gamemanager",
-      "type": "file",
-      "file": "02 - Core Systems/02.2 - Game Manager y Arquitectura de Estados (GameManager).md",
-      "x": -200,
-      "y": -350,
-      "width": 380,
-      "height": 240,
-      "color": "1"
-    },
-    {
-      "id": "node_systems",
-      "type": "file",
-      "file": "02 - Core Systems/02.3 - Sistemas Persistentes y Bootstrap (Systems Container).md",
-      "x": -650,
-      "y": -350,
-      "width": 380,
-      "height": 240,
-      "color": "6"
-    },
-    {
-      "id": "node_singletons",
-      "type": "file",
-      "file": "02 - Core Systems/02.1 - Patron Singleton y Gestores (StaticInstance, Singleton, PersistentSingleton).md",
-      "x": -650,
-      "y": -60,
-      "width": 380,
-      "height": 260,
-      "color": "6"
-    },
-    {
-      "id": "node_resources",
-      "type": "file",
-      "file": "02 - Core Systems/02.4 - Sistema de Recursos y ScriptableObjects (ResourceSystem & Scriptables).md",
-      "x": -650,
-      "y": 250,
-      "width": 380,
-      "height": 260,
-      "color": "4"
-    },
-    {
-      "id": "node_audio",
-      "type": "file",
-      "file": "02 - Core Systems/02.5 - Sistema de Audio 2D-3D (AudioSystem).md",
-      "x": -650,
-      "y": 560,
-      "width": 380,
-      "height": 240,
-      "color": "5"
-    },
-    {
-      "id": "node_exploration",
-      "type": "file",
-      "file": "03 - Mecanicas Gaiden/03.1 - Sistema de Exploracion 2D (Exploration Controller, Grid, Room Transitions).md",
-      "x": -200,
-      "y": 0,
-      "width": 400,
-      "height": 280,
-      "color": "2"
-    },
-    {
-      "id": "node_combat",
-      "type": "file",
-      "file": "03 - Mecanicas Gaiden/03.2 - Sistema de Combate y Reticula Oscilante (Combat Engine & Reticle).md",
-      "x": 300,
-      "y": 0,
-      "width": 420,
-      "height": 300,
-      "color": "1"
-    },
-    {
-      "id": "node_party",
-      "type": "file",
-      "file": "03 - Mecanicas Gaiden/03.3 - Sistema de Grupo y Personajes (Party System - Barry, Leon, Lucia).md",
-      "x": 300,
-      "y": -350,
-      "width": 420,
-      "height": 260,
-      "color": "3"
-    },
-    {
-      "id": "node_inventory",
-      "type": "file",
-      "file": "03 - Mecanicas Gaiden/03.5 - Sistema de Inventario y Gestion de Recursos (Inventory, Herbs, Keys).md",
-      "x": -200,
-      "y": 380,
-      "width": 400,
-      "height": 260,
-      "color": "3"
-    },
-    {
-      "id": "node_weapons",
-      "type": "file",
-      "file": "03 - Mecanicas Gaiden/03.4 - Sistema de Armas y Balistica (Weapons, Ammo & Damage Formula).md",
-      "x": 300,
-      "y": 380,
-      "width": 420,
-      "height": 260,
-      "color": "1"
-    },
-    {
-      "id": "node_enemies",
-      "type": "file",
-      "file": "03 - Mecanicas Gaiden/03.6 - Sistema de Enemigos e IA de Turnos (Enemy AI & Interval Timers).md",
-      "x": 800,
-      "y": 0,
-      "width": 400,
-      "height": 280,
-      "color": "1"
-    },
-    {
-      "id": "node_poo_events",
-      "type": "file",
-      "file": "04 - Fundamentos Teoricos y Diseno/04.5 - Arquitectura Basada en Eventos y Delegados.md",
-      "x": 800,
-      "y": -350,
-      "width": 400,
-      "height": 260,
-      "color": "5"
-    },
-    {
-      "id": "node_poo_interfaces",
-      "type": "file",
-      "file": "04 - Fundamentos Teoricos y Diseno/04.3 - Herencia e Interfaces en la Arquitectura.md",
-      "x": 800,
-      "y": 380,
-      "width": 400,
-      "height": 260,
-      "color": "4"
-    }
-  ],
-  "edges": [
-    {
-      "id": "edge_sys_sing",
-      "fromNode": "node_systems",
-      "fromSide": "bottom",
-      "toNode": "node_singletons",
-      "toSide": "top",
-      "label": "Hereda de PersistentSingleton"
-    },
-    {
-      "id": "edge_gm_expl",
-      "fromNode": "node_gamemanager",
-      "fromSide": "bottom",
-      "toNode": "node_exploration",
-      "toSide": "top",
-      "label": "Estado Exploration"
-    },
-    {
-      "id": "edge_gm_comb",
-      "fromNode": "node_gamemanager",
-      "fromSide": "right",
-      "toNode": "node_combat",
-      "toSide": "top",
-      "label": "Estado Combat"
-    },
-    {
-      "id": "edge_expl_comb",
-      "fromNode": "node_exploration",
-      "fromSide": "right",
-      "toNode": "node_combat",
-      "toSide": "left",
-      "label": "Encuentro con Zombie"
-    },
-    {
-      "id": "edge_comb_party",
-      "fromNode": "node_combat",
-      "fromSide": "top",
-      "toNode": "node_party",
-      "toSide": "bottom",
-      "label": "Aplica daño a Héroe activo"
-    },
-    {
-      "id": "edge_comb_weap",
-      "fromNode": "node_combat",
-      "fromSide": "bottom",
-      "toNode": "node_weapons",
-      "toSide": "top",
-      "label": "Disparo & Balística"
-    },
-    {
-      "id": "edge_comb_enemy",
-      "fromNode": "node_combat",
-      "fromSide": "right",
-      "toNode": "node_enemies",
-      "toSide": "left",
-      "label": "IA y Turnos de ataque"
-    },
-    {
-      "id": "edge_res_weap",
-      "fromNode": "node_resources",
-      "fromSide": "right",
-      "toNode": "node_inventory",
-      "toSide": "left",
-      "label": "Carga ScriptableItems"
-    },
-    {
-      "id": "edge_comb_events",
-      "fromNode": "node_combat",
-      "fromSide": "top",
-      "toNode": "node_poo_events",
-      "toSide": "left",
-      "label": "Emite OnEnemyHit, OnShotFired"
-    },
-    {
-      "id": "edge_audio_events",
-      "fromNode": "node_audio",
-      "fromSide": "top",
-      "toNode": "node_resources",
-      "toSide": "bottom",
-      "label": "Audio centralizado"
-    }
-  ]
+	"nodes":[
+		{"id":"node_exploration","type":"file","file":"03 - Mecanicas Gaiden/03.1 - Sistema de Exploracion 2D (Exploration Controller, Grid, Room Transitions).md","x":-200,"y":0,"width":400,"height":280,"color":"2"},
+		{"id":"node_systems","type":"file","file":"02 - Core Systems/02.3 - Sistemas Persistentes y Bootstrap (Systems Container).md","x":-1030,"y":-720,"width":380,"height":240,"color":"6"},
+		{"id":"node_singletons","type":"file","file":"02 - Core Systems/02.1 - Patron Singleton y Gestores (StaticInstance, Singleton, PersistentSingleton).md","x":-1030,"y":-130,"width":380,"height":260,"color":"6"},
+		{"id":"node_audio","type":"file","file":"02 - Core Systems/02.5 - Sistema de Audio 2D-3D (AudioSystem).md","x":-650,"y":920,"width":380,"height":240,"color":"5"},
+		{"id":"node_resources","type":"file","file":"02 - Core Systems/02.4 - Sistema de Recursos y ScriptableObjects (ResourceSystem & Scriptables).md","x":-650,"y":430,"width":380,"height":260,"color":"4"},
+		{"id":"node_enemies","type":"file","file":"03 - Mecanicas Gaiden/03.6 - Sistema de Enemigos e IA de Turnos (Enemy AI & Interval Timers).md","x":2000,"y":-410,"width":400,"height":280,"color":"1"},
+		{"id":"node_poo_interfaces","type":"file","file":"04 - Fundamentos Teoricos y Diseno/04.3 - Herencia e Interfaces en la Arquitectura.md","x":1840,"y":430,"width":400,"height":260,"color":"4"},
+		{"id":"node_weapons","type":"file","file":"03 - Mecanicas Gaiden/03.4 - Sistema de Armas y Balistica (Weapons, Ammo & Damage Formula).md","x":980,"y":260,"width":420,"height":260,"color":"1"},
+		{"id":"node_party","type":"file","file":"03 - Mecanicas Gaiden/03.3 - Sistema de Grupo y Personajes (Party System - Barry, Leon, Lucia).md","x":980,"y":-1200,"width":420,"height":260,"color":"3"},
+		{"id":"node_combat","type":"file","file":"03 - Mecanicas Gaiden/03.2 - Sistema de Combate y Reticula Oscilante (Combat Engine & Reticle).md","x":980,"y":-410,"width":420,"height":300,"color":"1"},
+		{"id":"node_poo_events","type":"file","file":"04 - Fundamentos Teoricos y Diseno/04.5 - Arquitectura Basada en Eventos y Delegados.md","x":2000,"y":-740,"width":400,"height":260,"color":"5"},
+		{"id":"node_gamemanager","type":"file","file":"02 - Core Systems/02.2 - Game Manager y Arquitectura de Estados (GameManager).md","x":-180,"y":-740,"width":380,"height":240,"color":"1"},
+		{"id":"node_inventory","type":"file","file":"03 - Mecanicas Gaiden/03.5 - Sistema de Inventario y Gestion de Recursos (Inventory, Herbs, Keys).md","x":280,"y":430,"width":400,"height":260,"color":"3"}
+	],
+	"edges":[
+		{"id":"edge_sys_sing","fromNode":"node_systems","fromSide":"bottom","toNode":"node_singletons","toSide":"top","label":"Hereda de PersistentSingleton"},
+		{"id":"edge_gm_expl","fromNode":"node_gamemanager","fromSide":"bottom","toNode":"node_exploration","toSide":"top","label":"Estado Exploration"},
+		{"id":"edge_gm_comb","fromNode":"node_gamemanager","fromSide":"right","toNode":"node_combat","toSide":"top","label":"Estado Combat"},
+		{"id":"edge_expl_comb","fromNode":"node_exploration","fromSide":"right","toNode":"node_combat","toSide":"left","label":"Encuentro con Zombie"},
+		{"id":"edge_comb_party","fromNode":"node_combat","fromSide":"top","toNode":"node_party","toSide":"bottom","label":"Aplica daño a Héroe activo"},
+		{"id":"edge_comb_weap","fromNode":"node_combat","fromSide":"bottom","toNode":"node_weapons","toSide":"top","label":"Disparo & Balística"},
+		{"id":"edge_comb_enemy","fromNode":"node_combat","fromSide":"right","toNode":"node_enemies","toSide":"left","label":"IA y Turnos de ataque"},
+		{"id":"edge_res_weap","fromNode":"node_resources","fromSide":"right","toNode":"node_inventory","toSide":"left","label":"Carga ScriptableItems"},
+		{"id":"edge_comb_events","fromNode":"node_combat","fromSide":"top","toNode":"node_poo_events","toSide":"left","label":"Emite OnEnemyHit, OnShotFired"},
+		{"id":"edge_audio_events","fromNode":"node_audio","fromSide":"top","toNode":"node_resources","toSide":"bottom","label":"Audio centralizado"}
+	]
 }
