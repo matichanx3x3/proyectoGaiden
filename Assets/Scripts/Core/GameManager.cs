@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
 
-namespace Gaiden.Core {
-    public enum GaidenGameState {
+namespace Game.Core {
+    public enum GameState {
         Starting    = 0,
         TitleScreen = 1,
         Exploration = 2,
@@ -13,45 +13,45 @@ namespace Gaiden.Core {
     }
 
     /// <summary>
-    /// Gestor central de estados para el bucle de juego tipo Resident Evil Gaiden.
+    /// Gestor central de estados para el bucle de juego.
     /// Emite eventos desacoplados OnBeforeStateChanged y OnAfterStateChanged.
     /// </summary>
-    public class GaidenGameManager : Singleton<GaidenGameManager> {
-        public static event Action<GaidenGameState> OnBeforeStateChanged;
-        public static event Action<GaidenGameState> OnAfterStateChanged;
+    public class GameManager : Singleton<GameManager> {
+        public static event Action<GameState> OnBeforeStateChanged;
+        public static event Action<GameState> OnAfterStateChanged;
 
-        public GaidenGameState CurrentState { get; private set; }
+        public GameState CurrentState { get; private set; } = GameState.Starting;
 
         private void Start() {
-            ChangeState(GaidenGameState.Starting);
+            ChangeState(GameState.Exploration);
         }
 
-        public void ChangeState(GaidenGameState newState) {
-            if (CurrentState == newState && newState != GaidenGameState.Starting) return;
+        public void ChangeState(GameState newState) {
+            if (CurrentState == newState && newState != GameState.Starting) return;
 
             OnBeforeStateChanged?.Invoke(newState);
             CurrentState = newState;
 
             switch (newState) {
-                case GaidenGameState.Starting:
+                case GameState.Starting:
                     HandleStarting();
                     break;
-                case GaidenGameState.TitleScreen:
+                case GameState.TitleScreen:
                     HandleTitleScreen();
                     break;
-                case GaidenGameState.Exploration:
+                case GameState.Exploration:
                     HandleExploration();
                     break;
-                case GaidenGameState.Combat:
+                case GameState.Combat:
                     HandleCombat();
                     break;
-                case GaidenGameState.Inventory:
+                case GameState.Inventory:
                     HandleInventory();
                     break;
-                case GaidenGameState.GameOver:
+                case GameState.GameOver:
                     HandleGameOver();
                     break;
-                case GaidenGameState.Victory:
+                case GameState.Victory:
                     HandleVictory();
                     break;
                 default:
@@ -59,11 +59,11 @@ namespace Gaiden.Core {
             }
 
             OnAfterStateChanged?.Invoke(newState);
-            Debug.Log($"[GaidenGameManager] Nuevo estado activo: {newState}");
+            Debug.Log($"[GameManager] Nuevo estado activo: {newState}");
         }
 
         private void HandleStarting() {
-            ChangeState(GaidenGameState.Exploration);
+            ChangeState(GameState.Exploration);
         }
 
         private void HandleTitleScreen() {
@@ -75,20 +75,18 @@ namespace Gaiden.Core {
         }
 
         private void HandleCombat() {
-            // El tiempo sigue corriendo para la oscilación del retículo y el turno del zombie
             Time.timeScale = 1f;
         }
 
         private void HandleInventory() {
-            // Pausa el movimiento de exploración mientras se inspecciona el maletín
         }
 
         private void HandleGameOver() {
-            Debug.Log("GAME OVER");
+            Debug.Log("[GameManager] GAME OVER");
         }
 
         private void HandleVictory() {
-            Debug.Log("ESCAPE COMPLETADO");
+            Debug.Log("[GameManager] ESCAPE / VICTORIA COMPLETADA");
         }
     }
 }

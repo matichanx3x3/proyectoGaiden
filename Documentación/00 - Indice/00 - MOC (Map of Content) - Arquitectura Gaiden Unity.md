@@ -22,6 +22,7 @@ Este proyecto de Obsidian estructura y adapta:
 ```mermaid
 flowchart TD
     Index["[[00 - MOC (Map of Content) - Arquitectura Gaiden Unity]]"]
+    Roadmap["[[01 - Roadmap y Estado del Proyecto (TODO)]]"]
     
     subgraph S1["01. Arquitectura General"]
         ArchVis["[[01.1 - Vision General y Filosofia de Diseno]]"]
@@ -39,13 +40,13 @@ flowchart TD
         Utils["[[02.7 - Utilidades y Extensiones]]"]
     end
 
-    subgraph S3["03. Mecánicas Gaiden (Gameplay)"]
-        Explo["[[03.1 - Sistema de Exploracion 2D]]"]
-        Combat["[[03.2 - Sistema de Combate y Reticula Oscilante]]"]
-        Party["[[03.3 - Sistema de Grupo y Personajes]]"]
-        Weapons["[[03.4 - Sistema de Armas y Balistica]]"]
-        Inventory["[[03.5 - Sistema de Inventario y Gestion de Recursos]]"]
-        EnemyAI["[[03.6 - Sistema de Enemigos e IA de Turnos]]"]
+    subgraph S3["03. Mecánicas Gaiden (Gameplay Modernizado)"]
+        Explo["[[03.1 - Sistema de Exploracion 2D (Exploration Controller, Grid, Room Transitions)|03.1 - Exploración en Perspectiva 3D & Interacciones]]"]
+        Combat["[[03.2 - Sistema de Combate y Reticula Oscilante (Combat Engine & Reticle)|03.2 - Combate Aditivo 3D & Retículo]]"]
+        Party["[[03.3 - Sistema de Grupo y Personajes (Party System - Barry, Leon, Lucia)|03.3 - Party System]]"]
+        Weapons["[[03.4 - Sistema de Armas y Balistica (Weapons, Ammo & Damage Formula)|03.4 - Armas & Balística]]"]
+        Inventory["[[03.5 - Sistema de Inventario y Gestion de Recursos (Inventory, Herbs, Keys)|03.5 - Inventario & Recogida de Ítems]]"]
+        EnemyAI["[[03.6 - Sistema de Enemigos e IA de Turnos (Enemy AI & Interval Timers)|03.6 - Enemigos & Turnos]]"]
     end
 
     subgraph S4["04. Fundamentos Teóricos y de Diseño"]
@@ -57,11 +58,12 @@ flowchart TD
     end
 
     subgraph S5["05 & 06. Scripts y Visualización"]
-        ScriptsC["[[05 - Scripts C# (Arquitectura Unity)]]"]
+        ScriptsC["[[05 - Indice de Scripts C# y Especificaciones|05 - Scripts C# (Arquitectura Unity)]]"]
         CanvasView["[[Gaiden_Architecture.canvas]]"]
         MermaidDiag["[[06.1 - Diagramas Mermaid de Arquitectura]]"]
     end
 
+    Index --> Roadmap
     Index --> S1
     Index --> S2
     Index --> S3
@@ -75,11 +77,12 @@ flowchart TD
 
 | Directorio | Propósito | Notas Clave |
 | :--- | :--- | :--- |
-| **`01 - Arquitectura General`** | Estructura macro del proyecto en Unity, jerarquía de escenas y flujo de ejecución. | [[01.1 - Vision General y Filosofia de Diseno\|Visión General]], [[01.2 - Jerarquia de Unity y Estructura del Proyecto\|Jerarquía]], [[01.3 - Ciclo de Vida y Maquina de Estados Global\|Ciclo de Vida]] |
+| **`00 - Indice`** | MOC interactivo y hoja de ruta de desarrollo. | [[00 - MOC (Map of Content) - Arquitectura Gaiden Unity\|MOC]], [[01 - Roadmap y Estado del Proyecto (TODO)\|Roadmap & TODO]] |
+| **`01 - Arquitectura General`** | Estructura macro del proyecto en Unity, jerarquía multi-escena y ciclo de ejecución. | [[01.1 - Vision General y Filosofia de Diseno\|Visión General]], [[01.2 - Jerarquia de Unity y Estructura del Proyecto\|Jerarquía]], [[01.3 - Ciclo de Vida y Maquina de Estados Global\|Ciclo de Vida]] |
 | **`02 - Core Systems`** | Sistemas base desacoplados y persistentes basados en la plantilla de Unity. | [[02.1 - Patron Singleton y Gestores\|Singletons]], [[02.2 - Game Manager y Arquitectura de Estados\|GameManager]], [[02.3 - Sistemas Persistentes y Bootstrap\|Systems]], [[02.4 - Sistema de Recursos y ScriptableObjects\|Recursos]], [[02.5 - Sistema de Audio 2D-3D\|Audio]], [[02.6 - Gestor de Unidades y Spawning\|Unidades]] |
-| **`03 - Mecanicas Gaiden`** | Especificación técnica de las mecánicas desensambladas de *Resident Evil Gaiden*. | [[03.1 - Sistema de Exploracion 2D\|Exploración]], [[03.2 - Sistema de Combate y Reticula Oscilante\|Combate]], [[03.3 - Sistema de Grupo y Personajes\|Party]], [[03.4 - Sistema de Armas y Balistica\|Armas]], [[03.5 - Sistema de Inventario y Gestion de Recursos\|Inventario]] |
+| **`03 - Mecanicas Gaiden`** | Especificación técnica de las mecánicas modernizadas de *Resident Evil Gaiden*. | [[03.1 - Sistema de Exploracion 2D (Exploration Controller, Grid, Room Transitions)\|Exploración Perspectiva]], [[03.2 - Sistema de Combate y Reticula Oscilante (Combat Engine & Reticle)\|Combate Aditivo 3D]], [[03.3 - Sistema de Grupo y Personajes (Party System - Barry, Leon, Lucia)\|Party]], [[03.4 - Sistema de Armas y Balistica (Weapons, Ammo & Damage Formula)\|Armas]], [[03.5 - Sistema de Inventario y Gestion de Recursos (Inventory, Herbs, Keys)\|Inventario]] |
 | **`04 - Fundamentos Teoricos y Diseno`** | Base teórica y principios de ingeniería de software necesarios para la arquitectura. | [[04.1 - Diseno de Sistemas RPG y Survival Horror\|Sistemas RPG]], [[04.2 - Programacion Orientada a Objetos en CSharp\|POO en C#]], [[04.3 - Herencia e Interfaces en la Arquitectura\|Herencia e Interfaces]], [[04.4 - Genericos y Colecciones en el Motor de Juego\|Genéricos y Colecciones]], [[04.5 - Arquitectura Basada en Eventos y Delegados\|Eventos y Delegados]] |
-| **`05 - Scripts C# (Arquitectura Unity)`** | Código fuente en C# listo para incorporar en Unity `Assets/_Scripts/`. | Implementación completa de Managers, Controladores, Entidades e Interfaces |
+| **`05 - Scripts C# (Arquitectura Unity)`** | Código fuente en C# sincronizado con `Assets/Scripts/`. | Implementación completa de Managers, Controladores, Entidades e Interfaces |
 | **`06 - Diagramas y Canvas`** | Canvas interactivo de Obsidian (`.canvas`) y diagramas de secuencia/clases en Mermaid. | [[Gaiden_Architecture.canvas]], [[06.1 - Diagramas Mermaid de Arquitectura]] |
 
 ---

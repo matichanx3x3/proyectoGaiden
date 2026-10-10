@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "fa8da8c757ee0a5b",
+        "id": "ca4d0f43a4d99eb2",
         "type": "tabs",
         "children": [
           {
-            "id": "930d2b641a34d7d4",
+            "id": "94cc544d28202ad4",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "00 - Indice/00 - MOC (Map of Content) - Arquitectura Gaiden Unity.md",
+                "file": "03 - Mecanicas Gaiden/03.2 - Sistema de Combate y Reticula Oscilante (Combat Engine & Reticle).md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "00 - MOC (Map of Content) - Arquitectura Gaiden Unity"
+              "title": "03.2 - Sistema de Combate y Reticula Oscilante (Combat Engine & Reticle)"
             }
           }
         ]
@@ -186,10 +186,33 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "930d2b641a34d7d4",
+  "active": "94cc544d28202ad4",
   "lastOpenFiles": [
-    "Gaiden_Architecture.canvas",
-    "README.md",
+    "05 - Scripts C# (Arquitectura Unity)/UI/InventoryUI.cs",
+    "05 - Scripts C# (Arquitectura Unity)/UI/GameOverUI.cs",
+    "05 - Scripts C# (Arquitectura Unity)/UI/ExplorationHUD.cs",
+    "05 - Scripts C# (Arquitectura Unity)/UI/CombatUI.cs",
+    "05 - Scripts C# (Arquitectura Unity)/UI",
+    "05 - Scripts C# (Arquitectura Unity)/Exploration/PushableBox.cs",
+    "05 - Scripts C# (Arquitectura Unity)/Exploration/LadderZone.cs",
+    "05 - Scripts C# (Arquitectura Unity)/Exploration/ItemPickup.cs",
+    "05 - Scripts C# (Arquitectura Unity)/Exploration/DoorInteractable.cs",
+    "05 - Scripts C# (Arquitectura Unity)/Editor/FunctionalTestingSceneBuilder.cs",
+    "05 - Scripts C# (Arquitectura Unity)/Editor",
+    "00 - Indice/01 - Roadmap y Estado del Proyecto (TODO).md",
+    "03 - Mecanicas Gaiden/03.1 - Sistema de Exploracion 2D (Exploration Controller, Grid, Room Transitions).md",
+    "02 - Core Systems/02.5 - Sistema de Audio 2D-3D (AudioSystem).md",
+    "02 - Core Systems/02.1 - Patron Singleton y Gestores (StaticInstance, Singleton, PersistentSingleton).md",
+    "01 - Arquitectura General/01.3 - Ciclo de Vida y Maquina de Estados Global.md",
+    "01 - Arquitectura General/01.2 - Jerarquia de Unity y Estructura del Proyecto.md",
+    "01 - Arquitectura General/01.1 - Vision General y Filosofia de Diseno.md",
+    "GaidenUnity/README.md",
+    "GaidenUnity/Gaiden_Architecture.canvas",
+    "04 - Fundamentos Teoricos y Diseno/04.1 - Diseno de Sistemas RPG y Survival Horror.md",
+    "04 - Fundamentos Teoricos y Diseno/04.2 - Programacion Orientada a Objetos en CSharp.md",
+    "04 - Fundamentos Teoricos y Diseno/04.4 - Genericos y Colecciones en el Motor de Juego.md",
+    "04 - Fundamentos Teoricos y Diseno/04.5 - Arquitectura Basada en Eventos y Delegados.md",
+    "04 - Fundamentos Teoricos y Diseno/04.3 - Herencia e Interfaces en la Arquitectura.md",
     "Bienvenido.md"
   ]
 }
