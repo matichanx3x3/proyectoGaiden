@@ -4,6 +4,7 @@ using Game.Core;
 using Game.Units;
 using Game.Items;
 using Game.Weapons;
+using DG.Tweening;
 
 namespace Game.UI {
     /// <summary>
@@ -58,8 +59,32 @@ namespace Game.UI {
         }
 
         private void HandleActiveHeroChanged(PartyMember member) => RefreshHeroInfo();
-        private void HandleHeroDamaged(PartyMember member) => RefreshHeroInfo();
-        private void HandleInventoryUpdated() => RefreshWeaponInfo();
+
+        private void HandleHeroDamaged(PartyMember member) {
+            RefreshHeroInfo();
+            if (_heroHpSlider != null) {
+                _heroHpSlider.transform.DOKill();
+                _heroHpSlider.transform.DOShakePosition(0.3f, new Vector3(8f, 0f, 0f), 15);
+            }
+            if (_heroHpText != null) {
+                _heroHpText.transform.DOKill();
+                _heroHpText.transform.DOPunchScale(Vector3.one * 0.25f, 0.25f, 5, 0.5f);
+            }
+        }
+
+        private void HandleInventoryUpdated() {
+            RefreshWeaponInfo();
+            if (_ammoText != null) {
+                _ammoText.transform.DOKill();
+                _ammoText.transform.DOPunchScale(Vector3.one * 0.15f, 0.2f, 5, 0.5f);
+            }
+        }
+
+        private void OnDestroy() {
+            if (_heroHpSlider != null) _heroHpSlider.transform.DOKill();
+            if (_heroHpText != null) _heroHpText.transform.DOKill();
+            if (_ammoText != null) _ammoText.transform.DOKill();
+        }
 
         private void Update() {
             // Refresco suave por si el inventario o la vida cambian externamente

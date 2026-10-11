@@ -95,25 +95,60 @@ flowchart LR
 ### 5. Escena de Pruebas Funcionales y Mecánicas de Interacción (`01_Functional_Testing`)
 - [x] **Escena Dedicada de Pruebas (`Assets/Scenes/01_Functional_Testing.unity`)**:
   - Entorno de testing completo con suelo $26\times26$m, muros perimetrales, muro divisorio central y dos accesos.
-  - Entorno multi-nivel con plataforma Mezzanine elevada a $Y=3.0$m, barandillas perimetrales y huecos de acceso.
-- [x] **Interacción con Puertas (`DoorInteractable.cs`)**:
-  - Sistema de puertas que implementa `IInteractable` para apertura/cierre interactivo (tecla `E` o botón de acción).
-  - Animación suave mediante interpolación angular (puertas batientes) o lineal (puertas correderas).
-  - Puerta estándar desbloqueada (`Door_Standard_Unlocked`).
-  - Puerta de seguridad bloqueada (`Door_Security_Locked`) que verifica en `InventorySystem.HasItem` la posesión de `ItemId.KeyCard_Level1`.
-- [x] **Verticalidad y Escaleras (`CharacterController` + `LadderZone.cs`)**:
-  - Navegación fluida por escaleras de 10 peldaños ($Y=0$ a $Y=3$) gracias al `stepOffset = 0.45f` y `slopeLimit = 45f` en `ExplorationController`.
-  - Rampa inclinada continua con respuesta estable de física y gravedad.
-  - Escalera de mano vertical con `LadderZone.cs`: al entrar en el trigger, el jugador entra en modo de escalada vertical (`SetClimbingMode(true)`), suspendiendo la gravedad y permitiendo subir/bajar por el eje Y con `W/S` o el stick vertical.
-- [x] **Empuje Físico de Cajas (`PushableBox.cs`)**:
-  - Cajas físicas con componente `Rigidbody`, masa calibrada y fricción lineal (`drag = 5f`).
-  - Bloqueo de rotaciones (`FreezeRotation`) y bloqueo de eje Y (`FreezePositionY`) para evitar volteos o despegues indeseados.
-  - Empuje direccional integrado en `ExplorationController.OnControllerColliderHit`: filtra colisiones de suelo (`hit.normal.y > 0.6f`), calcula la dirección horizontal del empuje y aplica fuerza continua en `FixedUpdate`.
+  - Entorno multi-nivel con plataforma Mezzanine elevada a $Y=3.0$m, barandillas perimetrales, huecos de acceso y plataforma elevada de puzle ($Y=1.2$m).
+- [x] **Resolución y Corrección de Interacción con Puertas (`DoorInteractable.cs` & `ExplorationController.cs`)**:
+  - Detección de `IInteractable` corregida para buscar en la jerarquía mediante `col.GetComponentInParent<IInteractable>()`, resolviendo el problema de colisionadores hijos en batientes (`DoorSlab`).
+  - Filtrado de colisionadores propios del personaje (`col.transform.IsChildOf(transform)`) y selección del interactuable más cercano en el cono frontal.
+  - Colisionador trigger amplio en la raíz del prefab para garantizar detección antes de contacto físico.
+  - Rotación suave angular con velocidad uniforme constante (`Quaternion.RotateTowards`) sin desaceleración asintótica.
+- [x] **Puerta Roja de Seguridad y Llave de Nivel (`Door_Locked_Red` & `ItemId.RedKeyCard`)**:
+  - Puerta de seguridad con material rojo distintivo (`Mat_Test_Door_Red`), bloqueada por defecto.
+  - Llave roja (`Pickup_Key_Red` con `ItemId.RedKeyCard`) ubicada en la plataforma superior (Mezzanine), incentivando el uso de verticalidad.
+  - Feedback sonoro y textual: si el jugador no tiene la llave, se emite sonido de pestillo y prompt `"Abrir Puerta (Requiere Llave Roja)"`. Al conseguir la llave e interactuar, se desbloquea y abre.
+- [x] **Agarre y Empuje Activo de Cajas con las Manos (`PushableBox.cs` & `ExplorationController.cs`)**:
+  - Las cajas solo se desplazan cuando el jugador interactúa explícitamente con ellas (`[E]` para agarrar / soltar).
+  - El movimiento pasivo por contacto casual (`OnControllerColliderHit`) ha sido desactivado: la caja actúa como un obstáculo sólido inamovible salvo que se agarre conscientemente.
+- [x] **Puntos Destino de Puzle en Blocking (Azules y Rojos, `BoxDestinationPoint.cs`)**:
+  - **Sockets Azules**: Puntos de control intermedios en el suelo con material azul; emiten feedback sonoro y elástico al recibir la caja pero permiten continuar empujándola y extrayéndola.
+  - **Sockets Rojos**: Metas finales con material rojo; alinean y bloquean permanentemente la caja (`isKinematic = true`, `FreezeAll`), cesando la interacción de empuje.
+- [x] **Activación Condicional del Peldaño de Escalada**:
+  - Corrección del bug de trepado prematuro: el peldaño escalón (`Step_Ledge`) permanece desactivado mientras la caja se traslada, imposibilitando subirse encima.
+  - Se activa y despliega exclusivamente cuando la caja se bloquea en el punto rojo final, convirtiéndose en plataforma para trepar a la repisa del puzle.
+- [x] **Giro Dinámico de Puertas en Contra y Apertura Lenta / de Golpe (`DoorInteractable.cs`)**:
+  - Cálculo vectorial automático para que el batiente gire siempre en sentido contrario a la posición del jugador, evitando colisionar con su cuerpo al abrir.
+  - Apertura lenta atmosférica (~2.2s) en la primera pulsación. Si el jugador vuelve a pulsar el botón de interacción durante la apertura, se abre de golpe (*burst open*, ~0.25s) con impacto sonoro y elástico.
+- [x] **Puertas de Transición a Nueva Zona con Fundido Oscuro (`ScreenFader.cs` & `Door_LevelTransition`)**:
+  - Puerta con marco interior oscuro (`DarkVoid_Backdrop`) que abre hacia la oscuridad.
+  - Ejecuta secuencia cinematográfica estilo Resident Evil: apertura lenta a lo oscuro, fundido a negro (`ScreenFader.FadeOut`), reubicación instantánea del jugador al punto de spawn y fundido de entrada (`ScreenFader.FadeIn`).
+- [x] **Biblioteca de Prefabs Reutilizables (`Assets/Prefabs/Exploration/`)**:
+  - `Door_Standard.prefab`, `Door_Locked_Red.prefab`, `Door_LevelTransition.prefab`, `PushableBox_Puzzle.prefab`, `Ladder_Vertical.prefab`, `Pickup_Key_Red.prefab`, `Pickup_GreenHerb.prefab`, `Pickup_FirstAidMed.prefab`.
 - [x] **Registro de Escenas en Build Settings**:
   - `00_Bootstrap.unity` (0)
   - `01_Functional_Testing.unity` (1)
   - `02_Ship_DeckA.unity` (2)
   - `03_CombatArena.unity` (3)
+
+### 6. Micro-Animaciones, Juicy Feedback y Game Feel (Integración DOTween)
+- [x] **Apertura y Forcejeo de Puertas (`DoorInteractable.cs`)**:
+  - Animación suave de apertura y cierre usando `_doorPivot.DOLocalRotate()` con curva de aceleración orgánica (`Ease.InOutQuad`).
+  - Feedback visual de forcejeo/pestillo cerrado: sacudida angular `_doorPivot.DOShakeRotation()` al intentar abrir sin la llave correspondiente.
+  - Cancelación preventiva `_doorPivot.DOKill()` para evitar solapamiento de animaciones o fugas de memoria.
+- [x] **Animaciones de Objetos en Escenario (`ItemPickup.cs`)**:
+  - Flotación y giro continuo en bucle con `transform.DOMoveY().SetLoops(-1, LoopType.Yoyo)` y `transform.DORotate().SetLoops(-1, LoopType.Incremental)`.
+  - Secuencia de recogida estilizada: micro-impulso elástico hacia arriba (`DOScale` + `DOMoveY`) y encogimiento a cero antes de destrucción, proporcionando confirmación sensorial de recogida sin lag.
+- [x] **Impacto Físico de Cajas Empujables (`PushableBox.cs`)**:
+  - Micro-impacto elástico con `transform.DOPunchScale()` al alcanzar el límite de empuje o encajar en el socket del puzle, comunicando físicamente el bloqueo estático del objeto.
+- [x] **Transiciones y Respuesta Táctil en UI de Inventario (`InventoryUI.cs`)**:
+  - Transición de apertura pop con `_panelRoot.DOScale(1f, 0.18f).SetEase(Ease.OutBack).SetUpdate(true)` para operar independientemente de la pausa de tiempo del juego.
+  - Feedback de selección de casilla con `slotButton.transform.DOPunchScale()`.
+  - Reacción elástica en texto descriptivo al usar consumibles o soltar objetos.
+- [x] **Impacto Sensorial en HUD de Exploración (`ExplorationHUD.cs`)**:
+  - Sacudida reactiva de la barra de vida `_heroHpSlider.transform.DOShakePosition()` y punch en texto al recibir daño el héroe activo.
+  - Micro-escala elástica en el contador de munición `_ammoText.transform.DOPunchScale()` al cambiar existencias.
+- [x] **Impacto y Tensión en Combate Táctico (`CombatUI.cs`)**:
+  - Sacudida de cámara en primera persona con `Camera.main.transform.DOShakePosition()` escalonada (fuerte en impactos críticos y daño recibido; moderada en impactos normales).
+  - Punch scale en barra de vida y retrato del monstruo al conectar impactos.
+  - Reacción elástica `_feedbackText.transform.DOPunchScale()` para mensajes de feedback (CRÍTICO, NORMAL, MISS).
 
 ---
 
@@ -171,3 +206,4 @@ flowchart LR
 | **ADR-04** | **Arquitectura de Cáscaras (*Shells*)** | Prefabs con mallas finales acopladas | Permite iterar la jugabilidad, balance y lógica de combate sin esperar a que el pipeline de modelado 3D esté finalizado. |
 | **ADR-05** | **Singleton Auto-Instanciable para Recursos** | Búsqueda manual de assets en runtime | `ResourceSystem` garantiza acceso inmediato a datos de armas, héroes y enemigos incluso al lanzar escenas aisladas en el Editor. |
 | **ADR-06** | **Escena Aislada de Testing Funcional** (`01_Functional_Testing`) | Probar mecánicas directamente en escenas de producción | Permite verificar física, escaleras, verticalidad, empuje de cajas y puertas en un entorno controlado con 0 riesgo de romper niveles narrativos. |
+| **ADR-07** | **Adopción de DOTween para Micro-Animaciones y Game Feel** | Corrutinas custom / State machines pesadas de Animator para elementos de UI y props | Permite interpolaciones tween orgánicas con curvas de aceleración (`Ease`), micro-temblores (`DOShakePosition`, `DOShakeRotation`) y escalados elásticos (`DOPunchScale`), con soporte de `unscaledTime` en menús y código conciso de 1 línea. |

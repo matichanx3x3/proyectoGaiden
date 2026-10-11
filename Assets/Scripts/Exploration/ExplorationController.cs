@@ -34,10 +34,17 @@ namespace Game.Exploration {
         private float _lastInventoryToggleTime;
         private bool _isClimbingLadder;
         private float _ladderClimbSpeed = 3f;
+        private PushableBox _grabbedBox;
+        [SerializeField] private float _boxPushSpeed = 2.0f;
 
         public Vector3 FacingDirection { get; private set; } = Vector3.forward;
         public bool IsMoving => _moveDirection.sqrMagnitude > 0.01f;
         public bool IsClimbingLadder => _isClimbingLadder;
+        public bool IsGrabbingBox => _grabbedBox != null;
+        public PushableBox GrabbedBox => _grabbedBox;
+
+        public void SetGrabbedBox(PushableBox box) => _grabbedBox = box;
+        public void ClearGrabbedBox(PushableBox box) { if (_grabbedBox == box) _grabbedBox = null; }
 
         private void Awake() {
             _characterController = GetComponent<CharacterController>();
@@ -126,21 +133,40 @@ namespace Game.Exploration {
         private void ApplyMovement() {
             if (_characterController == null) return;
 
-            float currentSpeed = _isSprinting ? _sprintSpeed : _walkSpeed;
-            Vector3 velocity = _moveDirection * currentSpeed;
-
-            if (_isClimbingLadder) {
-                velocity.y = _verticalVelocity;
-            } else {
+            if (_grabbedBox != null) {
+                float pushSpeed = _boxPushSpeed;
+                Vector3 velocity = _moveDirection * pushSpeed;
                 if (_characterController.isGrounded) {
                     _verticalVelocity = -1f;
                 } else {
                     _verticalVelocity += _gravity * Time.fixedDeltaTime;
                 }
                 velocity.y = _verticalVelocity;
+                _characterController.Move(velocity * Time.fixedDeltaTime);
+
+                if (_moveDirection.sqrMagnitude > 0.001f) {
+                    _grabbedBox.MoveWithPlayer(_moveDirection, pushSpeed);
+                } else {
+                    _grabbedBox.StopMoving();
+                }
+                return;
             }
 
-            _characterController.Move(velocity * Time.fixedDeltaTime);
+            float currentSpeed = _isSprinting ? _sprintSpeed : _walkSpeed;
+            Vector3 normalVelocity = _moveDirection * currentSpeed;
+
+            if (_isClimbingLadder) {
+                normalVelocity.y = _verticalVelocity;
+            } else {
+                if (_characterController.isGrounded) {
+                    _verticalVelocity = -1f;
+                } else {
+                    _verticalVelocity += _gravity * Time.fixedDeltaTime;
+                }
+                normalVelocity.y = _verticalVelocity;
+            }
+
+            _characterController.Move(normalVelocity * Time.fixedDeltaTime);
         }
 
         private void HandleInteractionInput() {
@@ -154,6 +180,10 @@ namespace Game.Exploration {
             if (gamepad != null && (gamepad.buttonSouth.wasPressedThisFrame || gamepad.buttonWest.wasPressedThisFrame)) interactPressed = true;
 
             if (interactPressed) {
+                if (_grabbedBox != null) {
+                    _grabbedBox.ReleaseGrab();
+                    return;
+                }
                 CheckInteraction();
             }
         }
@@ -162,18 +192,32 @@ namespace Game.Exploration {
             Vector3 center = transform.position + Vector3.up * 0.3f + (FacingDirection * _interactionDistance);
             Collider[] colliders = Physics.OverlapSphere(center, _interactionRadius, _interactLayers);
 
-            foreach (var col in colliders) {
-                if (col.gameObject == gameObject) continue;
+            IInteractable bestInteractable = null;
+            float closestDistSqr = float.MaxValue;
 
-                if (col.TryGetComponent<IInteractable>(out var interactable)) {
-                    interactable.Interact(this);
-                    Debug.Log($"[Exploration] Interactuando con: {interactable.GetInteractionPrompt()}");
-                    break;
+            foreach (var col in colliders) {
+                if (col.transform.IsChildOf(transform)) continue;
+
+                var interactable = col.GetComponentInParent<IInteractable>();
+                if (interactable != null) {
+                    float distSqr = (col.transform.position - center).sqrMagnitude;
+                    if (distSqr < closestDistSqr) {
+                        closestDistSqr = distSqr;
+                        bestInteractable = interactable;
+                    }
                 }
+            }
+
+            if (bestInteractable != null) {
+                Debug.Log($"[Exploration] Interactuando con: {bestInteractable.GetInteractionPrompt()}");
+                bestInteractable.Interact(this);
             }
         }
 
         private void OnControllerColliderHit(ControllerColliderHit hit) {
+            // Cajas empujables: ignorar empuje por colisión libre (se mueven estrictamente agarrándolas)
+            if (hit.collider.GetComponentInParent<PushableBox>() != null) return;
+
             var body = hit.collider.attachedRigidbody;
             if (body == null || body.isKinematic) return;
 
@@ -187,18 +231,13 @@ namespace Game.Exploration {
             }
             if (pushDir.sqrMagnitude < 0.001f) return;
 
-            float power = _boxPushPower;
-            var pushable = hit.collider.GetComponent<PushableBox>();
-            if (pushable != null) {
-                power = pushable.PushForce;
-            }
-
-            body.linearVelocity = pushDir.normalized * power;
+            body.linearVelocity = pushDir.normalized * _boxPushPower;
         }
 
         public void SetClimbingLadder(bool isClimbing) {
             _isClimbingLadder = isClimbing;
             if (isClimbing) {
+                if (_grabbedBox != null) _grabbedBox.ReleaseGrab();
                 _verticalVelocity = 0f;
             }
         }

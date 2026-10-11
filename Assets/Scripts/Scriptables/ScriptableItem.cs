@@ -11,6 +11,7 @@ namespace Game.Items {
         KeyCard_Level1 = 6,
         KeyCard_Level2 = 7,
         MaintenanceKey = 8,
+        RedKeyCard    = 9,
         CustomItem    = 99
     }
 

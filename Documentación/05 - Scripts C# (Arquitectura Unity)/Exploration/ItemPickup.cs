@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 using Game.Interfaces;
 using Game.Items;
 using Game.Weapons;
@@ -49,13 +50,18 @@ namespace Game.Exploration {
             name = $"Pickup_{itemId}";
         }
 
-        private void Update() {
+        private void Start() {
             if (!_enableBobbing) return;
 
-            transform.Rotate(0f, _rotationSpeed * Time.deltaTime, 0f, Space.World);
+            // Animación continua de flotación y rotación con DOTween
+            float bobDuration = _bobFrequency > 0f ? (2f / _bobFrequency) : 1.2f;
+            transform.DOMoveY(_startPos.y + _bobHeight, bobDuration)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetEase(Ease.InOutSine);
 
-            float newY = _startPos.y + (Mathf.Sin(Time.time * _bobFrequency) * _bobHeight);
-            transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+            transform.DORotate(new Vector3(0f, 360f, 0f), 360f / _rotationSpeed, RotateMode.LocalAxisAdd)
+                .SetLoops(-1, LoopType.Incremental)
+                .SetEase(Ease.Linear);
         }
 
         private void OnTriggerEnter(Collider other) {
@@ -94,8 +100,23 @@ namespace Game.Exploration {
                 if (_pickupSound != null && AudioSystem.Instance != null) {
                     AudioSystem.Instance.PlaySound(_pickupSound);
                 }
-                Destroy(gameObject);
+
+                // Desactivar collider inmediatamente para evitar recolección duplicada
+                var col = GetComponent<Collider>();
+                if (col != null) col.enabled = false;
+
+                // Feedback visual de recogida: impulso hacia arriba y reducción de escala
+                transform.DOKill();
+                Sequence pickupSeq = DOTween.Sequence();
+                pickupSeq.Append(transform.DOScale(transform.localScale * 1.35f, 0.12f).SetEase(Ease.OutQuad));
+                pickupSeq.Join(transform.DOMoveY(transform.position.y + 0.35f, 0.2f).SetEase(Ease.OutQuad));
+                pickupSeq.Append(transform.DOScale(Vector3.zero, 0.12f).SetEase(Ease.InBack));
+                pickupSeq.OnComplete(() => Destroy(gameObject));
             }
+        }
+
+        private void OnDestroy() {
+            transform.DOKill();
         }
 
         public string GetInteractionPrompt() {

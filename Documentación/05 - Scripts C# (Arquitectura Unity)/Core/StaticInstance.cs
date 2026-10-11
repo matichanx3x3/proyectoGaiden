@@ -6,9 +6,18 @@ namespace Game.Core {
     /// Ideal para gestores atados al ciclo de vida de una escena.
     /// </summary>
     public abstract class StaticInstance<T> : MonoBehaviour where T : MonoBehaviour {
-        public static T Instance { get; private set; }
+        private static T _instance;
+        public static T Instance {
+            get {
+                if (_instance == null) {
+                    _instance = Object.FindFirstObjectByType<T>();
+                }
+                return _instance;
+            }
+            protected set => _instance = value;
+        }
 
-        protected virtual void Awake() => Instance = this as T;
+        protected virtual void Awake() => _instance = this as T;
 
         protected virtual void OnApplicationQuit() {
             Instance = null;

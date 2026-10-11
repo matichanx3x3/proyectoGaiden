@@ -38,6 +38,7 @@ flowchart TD
         AudioSys["[[02.5 - Sistema de Audio 2D-3D]]"]
         UnitMgr["[[02.6 - Gestor de Unidades y Spawning]]"]
         Utils["[[02.7 - Utilidades y Extensiones]]"]
+        TweenTrans["[[02.8 - Sistema de Transiciones y Juicy Feedback (DOTween & ScreenFader)|02.8 - Transiciones & DOTween]]"]
     end
 
     subgraph S3["03. Mecánicas Gaiden (Gameplay Modernizado)"]
@@ -79,7 +80,7 @@ flowchart TD
 | :--- | :--- | :--- |
 | **`00 - Indice`** | MOC interactivo y hoja de ruta de desarrollo. | [[00 - MOC (Map of Content) - Arquitectura Gaiden Unity\|MOC]], [[01 - Roadmap y Estado del Proyecto (TODO)\|Roadmap & TODO]] |
 | **`01 - Arquitectura General`** | Estructura macro del proyecto en Unity, jerarquía multi-escena y ciclo de ejecución. | [[01.1 - Vision General y Filosofia de Diseno\|Visión General]], [[01.2 - Jerarquia de Unity y Estructura del Proyecto\|Jerarquía]], [[01.3 - Ciclo de Vida y Maquina de Estados Global\|Ciclo de Vida]] |
-| **`02 - Core Systems`** | Sistemas base desacoplados y persistentes basados en la plantilla de Unity. | [[02.1 - Patron Singleton y Gestores\|Singletons]], [[02.2 - Game Manager y Arquitectura de Estados\|GameManager]], [[02.3 - Sistemas Persistentes y Bootstrap\|Systems]], [[02.4 - Sistema de Recursos y ScriptableObjects\|Recursos]], [[02.5 - Sistema de Audio 2D-3D\|Audio]], [[02.6 - Gestor de Unidades y Spawning\|Unidades]] |
+| **`02 - Core Systems`** | Sistemas base desacoplados y persistentes basados en la plantilla de Unity. | [[02.1 - Patron Singleton y Gestores\|Singletons]], [[02.2 - Game Manager y Arquitectura de Estados\|GameManager]], [[02.3 - Sistemas Persistentes y Bootstrap\|Systems]], [[02.4 - Sistema de Recursos y ScriptableObjects\|Recursos]], [[02.5 - Sistema de Audio 2D-3D\|Audio]], [[02.6 - Gestor de Unidades y Spawning\|Unidades]], [[02.8 - Sistema de Transiciones y Juicy Feedback (DOTween & ScreenFader)\|Transiciones DOTween]] |
 | **`03 - Mecanicas Gaiden`** | Especificación técnica de las mecánicas modernizadas de *Resident Evil Gaiden*. | [[03.1 - Sistema de Exploracion 2D (Exploration Controller, Grid, Room Transitions)\|Exploración Perspectiva]], [[03.2 - Sistema de Combate y Reticula Oscilante (Combat Engine & Reticle)\|Combate Aditivo 3D]], [[03.3 - Sistema de Grupo y Personajes (Party System - Barry, Leon, Lucia)\|Party]], [[03.4 - Sistema de Armas y Balistica (Weapons, Ammo & Damage Formula)\|Armas]], [[03.5 - Sistema de Inventario y Gestion de Recursos (Inventory, Herbs, Keys)\|Inventario]] |
 | **`04 - Fundamentos Teoricos y Diseno`** | Base teórica y principios de ingeniería de software necesarios para la arquitectura. | [[04.1 - Diseno de Sistemas RPG y Survival Horror\|Sistemas RPG]], [[04.2 - Programacion Orientada a Objetos en CSharp\|POO en C#]], [[04.3 - Herencia e Interfaces en la Arquitectura\|Herencia e Interfaces]], [[04.4 - Genericos y Colecciones en el Motor de Juego\|Genéricos y Colecciones]], [[04.5 - Arquitectura Basada en Eventos y Delegados\|Eventos y Delegados]] |
 | **`05 - Scripts C# (Arquitectura Unity)`** | Código fuente en C# sincronizado con `Assets/Scripts/`. | Implementación completa de Managers, Controladores, Entidades e Interfaces |

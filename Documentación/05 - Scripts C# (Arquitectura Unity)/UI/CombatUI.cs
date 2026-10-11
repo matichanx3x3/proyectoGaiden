@@ -6,6 +6,7 @@ using Game.Combat;
 using Game.Units;
 using Game.Weapons;
 using Game.Items;
+using DG.Tweening;
 
 namespace Game.UI {
     /// <summary>
@@ -187,12 +188,36 @@ namespace Game.UI {
         private void HandleEnemyHit(HitOutcome outcome, int damage) {
             switch (outcome) {
                 case HitOutcome.Critical:
+                    if (Camera.main != null) {
+                        Camera.main.transform.DOKill();
+                        Camera.main.transform.DOShakePosition(0.25f, 0.35f, 20, 90f);
+                    }
+                    if (_enemyHpSlider != null) {
+                        _enemyHpSlider.transform.DOKill();
+                        _enemyHpSlider.transform.DOPunchScale(Vector3.one * 0.15f, 0.2f, 5, 0.5f);
+                    }
+                    if (_enemyPortraitImage != null) {
+                        _enemyPortraitImage.transform.DOKill();
+                        _enemyPortraitImage.transform.DOPunchScale(Vector3.one * 0.15f, 0.2f, 5, 0.5f);
+                    }
                     ShowFeedback($"¡IMPACTO CRÍTICO! -{damage} HP", Color.red, 1.0f);
                     break;
                 case HitOutcome.Normal:
+                    if (Camera.main != null) {
+                        Camera.main.transform.DOKill();
+                        Camera.main.transform.DOShakePosition(0.12f, 0.15f, 15, 90f);
+                    }
+                    if (_enemyHpSlider != null) {
+                        _enemyHpSlider.transform.DOKill();
+                        _enemyHpSlider.transform.DOPunchScale(Vector3.one * 0.08f, 0.15f, 5, 0.5f);
+                    }
                     ShowFeedback($"IMPACTO NORMAL -{damage} HP", Color.yellow, 0.8f);
                     break;
                 case HitOutcome.Miss:
+                    if (_gaugeContainer != null) {
+                        _gaugeContainer.DOKill();
+                        _gaugeContainer.DOPunchScale(new Vector3(0.05f, 0.05f, 0f), 0.15f, 4, 0.5f);
+                    }
                     ShowFeedback("¡DISPARO FALLIDO! (MISS)", Color.gray, 0.8f);
                     break;
             }
@@ -205,6 +230,14 @@ namespace Game.UI {
         }
 
         private void HandlePlayerDamaged(int damage) {
+            if (Camera.main != null) {
+                Camera.main.transform.DOKill();
+                Camera.main.transform.DOShakePosition(0.35f, 0.4f, 22, 90f);
+            }
+            if (_heroHpText != null) {
+                _heroHpText.transform.DOKill();
+                _heroHpText.transform.DOShakePosition(0.3f, new Vector3(10f, 0f, 0f), 15);
+            }
             ShowFeedback($"¡EL ENEMIGO ATACA! -{damage} HP", new Color(1f, 0.3f, 0.3f), 1.0f);
         }
 
@@ -215,7 +248,19 @@ namespace Game.UI {
         private void ShowFeedback(string message, Color color, float duration) {
             if (_feedbackText == null) return;
             if (_feedbackCoroutine != null) StopCoroutine(_feedbackCoroutine);
+            _feedbackText.transform.DOKill();
+            _feedbackText.transform.localScale = Vector3.one;
+            _feedbackText.transform.DOPunchScale(Vector3.one * 0.2f, 0.2f, 5, 0.5f);
             _feedbackCoroutine = StartCoroutine(FeedbackRoutine(message, color, duration));
+        }
+
+        private void OnDestroy() {
+            if (_feedbackText != null) _feedbackText.transform.DOKill();
+            if (_enemyHpSlider != null) _enemyHpSlider.transform.DOKill();
+            if (_enemyPortraitImage != null) _enemyPortraitImage.transform.DOKill();
+            if (_gaugeContainer != null) _gaugeContainer.DOKill();
+            if (_heroHpText != null) _heroHpText.transform.DOKill();
+            if (Camera.main != null) Camera.main.transform.DOKill();
         }
 
         private IEnumerator FeedbackRoutine(string message, Color color, float duration) {

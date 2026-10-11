@@ -31,8 +31,12 @@ namespace Game.EditorTools {
             Material matCrate1 = CreateMaterial("Mat_Test_Crate1", new Color(0.75f, 0.45f, 0.15f));
             Material matCrate2 = CreateMaterial("Mat_Test_Crate2", new Color(0.65f, 0.35f, 0.1f));
             Material matDoor = CreateMaterial("Mat_Test_Door", new Color(0.5f, 0.5f, 0.55f));
-            Material matKeyDoor = CreateMaterial("Mat_Test_KeyDoor", new Color(0.6f, 0.15f, 0.15f));
+            Material matKeyDoor = CreateMaterial("Mat_Test_Door_Red", new Color(0.85f, 0.15f, 0.15f));
             Material matLadder = CreateMaterial("Mat_Test_Ladder", new Color(0.9f, 0.75f, 0.2f));
+            Material matSocketBlue = CreateMaterial("Mat_Socket_Blue", new Color(0.15f, 0.5f, 0.95f));
+            Material matSocketRed = CreateMaterial("Mat_Socket_Red", new Color(0.95f, 0.15f, 0.15f));
+            Material matDarkVoid = CreateMaterial("Mat_DarkVoid", new Color(0.02f, 0.02f, 0.02f));
+            Material matTransitionDoor = CreateMaterial("Mat_Door_Transition", new Color(0.35f, 0.4f, 0.45f));
 
             // --- 2. ILUMINACIÓN Y ENTORNO ---
             var lightGo = new GameObject("Directional Light");
@@ -84,12 +88,9 @@ namespace Game.EditorTools {
             mezzanine.transform.localScale = new Vector3(16f, 0.5f, 8f);
             mezzanine.GetComponent<Renderer>().material = matPlatform;
 
-            // Barandillas del mezzanine
-            CreateWall(verticalRoot.transform, "Railing_North", new Vector3(0f, 3.5f, 12f), new Vector3(16f, 1f, 0.2f), matWall);
-            CreateWall(verticalRoot.transform, "Railing_West", new Vector3(-8f, 3.5f, 8f), new Vector3(0.2f, 1f, 8f), matWall);
-            CreateWall(verticalRoot.transform, "Railing_East", new Vector3(8f, 3.5f, 8f), new Vector3(0.2f, 1f, 8f), matWall);
-            // Barandillas del mezzanine con aperturas en X = -3 (escaleras) y X = 3 (rampa)
-            CreateWall(verticalRoot.transform, "Railing_North", new Vector3(0f, 3.5f, 12f), new Vector3(16f, 1f, 0.2f), matWall);
+            // Barandillas del mezzanine con aperturas en X = -3 (escaleras), X = 3 (rampa) y Z = 12 (puerta a nueva zona)
+            CreateWall(verticalRoot.transform, "Railing_North_Left", new Vector3(-4.5f, 3.5f, 12f), new Vector3(7f, 1f, 0.2f), matWall);
+            CreateWall(verticalRoot.transform, "Railing_North_Right", new Vector3(4.5f, 3.5f, 12f), new Vector3(7f, 1f, 0.2f), matWall);
             CreateWall(verticalRoot.transform, "Railing_West", new Vector3(-8f, 3.5f, 8f), new Vector3(0.2f, 1f, 8f), matWall);
             CreateWall(verticalRoot.transform, "Railing_East", new Vector3(8f, 3.5f, 8f), new Vector3(0.2f, 1f, 8f), matWall);
             CreateWall(verticalRoot.transform, "Railing_South_Left", new Vector3(-6.25f, 3.5f, 4f), new Vector3(3.5f, 1f, 0.2f), matWall);
@@ -124,103 +125,77 @@ namespace Game.EditorTools {
             ramp.transform.localScale = new Vector3(2.0f, 0.2f, 4.24f);
             ramp.GetComponent<Renderer>().material = matPlatform;
 
-            // Escala vertical tipo marinero / escalera de mano (Ladder) en X = 7.5, sube de Y=0 a Y=3.5
-            var ladderGo = new GameObject("Ladder_Vertical");
-            ladderGo.transform.SetParent(verticalRoot.transform);
-            ladderGo.transform.position = new Vector3(7.5f, 1.5f, 3.8f);
+            // Escala vertical tipo marinero (Ladder_Vertical Prefab) en X = 7.5, sube de Y=0 a Y=3.5
+            var ladderPrefab = GetOrCreateLadderPrefab("Ladder_Vertical", matLadder, 3.5f);
+            var ladderInst = PrefabUtility.InstantiatePrefab(ladderPrefab, verticalRoot.transform) as GameObject;
+            ladderInst.transform.position = new Vector3(7.5f, 0f, 3.8f);
 
-            var ladderCol = ladderGo.AddComponent<BoxCollider>();
-            ladderCol.isTrigger = true;
-            ladderCol.size = new Vector3(1.2f, 3.5f, 0.8f);
-            ladderGo.AddComponent<LadderZone>();
+            // Plataforma elevada de pruebas para puzle con caja (Y = 1.2, accesible trepando por la caja)
+            CreateWall(verticalRoot.transform, "Puzzle_Elevated_Platform", new Vector3(5f, 0.6f, -1.0f), new Vector3(3.0f, 1.2f, 2.5f), matPlatform);
 
-            // Visual de la escalera (postes y peldaños)
-            var poleL = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            poleL.name = "PoleL";
-            poleL.transform.SetParent(ladderGo.transform);
-            poleL.transform.localPosition = new Vector3(-0.4f, 0f, 0f);
-            poleL.transform.localScale = new Vector3(0.08f, 3.2f, 0.08f);
-            poleL.GetComponent<Renderer>().material = matLadder;
-
-            var poleR = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            poleR.name = "PoleR";
-            poleR.transform.SetParent(ladderGo.transform);
-            poleR.transform.localPosition = new Vector3(0.4f, 0f, 0f);
-            poleR.transform.localScale = new Vector3(0.08f, 3.2f, 0.08f);
-            poleR.GetComponent<Renderer>().material = matLadder;
-
-            for (int r = 0; r < 8; r++) {
-                var rung = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                rung.name = $"Rung_{r}";
-                rung.transform.SetParent(ladderGo.transform);
-                rung.transform.localPosition = new Vector3(0f, -1.3f + (r * 0.4f), 0f);
-                rung.transform.localScale = new Vector3(0.8f, 0.05f, 0.05f);
-                rung.GetComponent<Renderer>().material = matLadder;
-            }
-
-            // --- 5. PUERTAS INTERACTIVAS (IInteractable) ---
+            // --- 5. PUERTAS INTERACTIVAS (Prefabs Door_Standard, Door_Locked_Red y Door_LevelTransition) ---
             var doorsRoot = new GameObject("[=== INTERACTIVE DOORS ===]");
 
             // Puerta 1: Puerta estándar desbloqueada (Hueco X = -3, Z = 0)
-            var door1Frame = new GameObject("Door_Standard_Unlocked");
-            door1Frame.transform.SetParent(doorsRoot.transform);
-            door1Frame.transform.position = new Vector3(-3.8f, 0f, 0f); // Pivote en la jamba
+            var doorStdPrefab = GetOrCreateDoorPrefab("Door_Standard", matDoor, false, ItemId.None, new Vector3(0f, 90f, 0f));
+            var door1 = PrefabUtility.InstantiatePrefab(doorStdPrefab, doorsRoot.transform) as GameObject;
+            door1.name = "Door_Standard_Unlocked";
+            door1.transform.position = new Vector3(-3.8f, 0f, 0f);
 
-            var door1Slab = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            door1Slab.name = "DoorSlab";
-            door1Slab.transform.SetParent(door1Frame.transform);
-            door1Slab.transform.localPosition = new Vector3(0.8f, 1.25f, 0f);
-            door1Slab.transform.localScale = new Vector3(1.6f, 2.5f, 0.12f);
-            door1Slab.GetComponent<Renderer>().material = matDoor;
+            // Puerta 2: Puerta roja con cerrojo de seguridad (Requiere RedKeyCard, Hueco X = 3, Z = 0)
+            var doorRedPrefab = GetOrCreateDoorPrefab("Door_Locked_Red", matKeyDoor, true, ItemId.RedKeyCard, new Vector3(0f, -90f, 0f));
+            var door2 = PrefabUtility.InstantiatePrefab(doorRedPrefab, doorsRoot.transform) as GameObject;
+            door2.name = "Door_Locked_Red";
+            door2.transform.position = new Vector3(3.8f, 0f, 0f);
 
-            var door1Comp = door1Frame.AddComponent<DoorInteractable>();
-            door1Slab.AddComponent<BoxCollider>(); // Asegurar collider para interactuar
-            var door1Proxy = door1Slab.AddComponent<DoorInteractionProxy>();
-            door1Proxy.TargetDoor = door1Comp;
+            // Puerta 3: Puerta de Transición a otra zona oscura (Mezzanine Norte, Y = 3.0, Z = 12.0)
+            var doorTransPrefab = GetOrCreateLevelTransitionDoorPrefab("Door_LevelTransition", matTransitionDoor, matDarkVoid, new Vector3(0f, 1f, -8f));
+            var door3 = PrefabUtility.InstantiatePrefab(doorTransPrefab, doorsRoot.transform) as GameObject;
+            door3.name = "Door_LevelTransition_North";
+            door3.transform.position = new Vector3(0f, 3.0f, 12.0f);
 
-            // Puerta 2: Puerta con cerrojo de seguridad (Requiere KeyCard_Level1, Hueco X = 3, Z = 0)
-            var door2Frame = new GameObject("Door_Security_Locked");
-            door2Frame.transform.SetParent(doorsRoot.transform);
-            door2Frame.transform.position = new Vector3(3.8f, 0f, 0f); // Pivote en la jamba
+            // --- 6. PUNTOS DESTINO Y CAJAS EMPUJABLES (Sockets Azules y Rojos) ---
+            var socketsRoot = new GameObject("[=== DESTINATION SOCKETS (PUZZLE) ===]");
 
-            var door2Slab = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            door2Slab.name = "DoorSlab_Locked";
-            door2Slab.transform.SetParent(door2Frame.transform);
-            door2Slab.transform.localPosition = new Vector3(-0.8f, 1.25f, 0f);
-            door2Slab.transform.localScale = new Vector3(1.6f, 2.5f, 0.12f);
-            door2Slab.GetComponent<Renderer>().material = matKeyDoor;
+            // Sockets para Caja 2 (Puzle de plataforma elevada: mover de -4 a -3.2 [Azul] y a -2.1 [Rojo])
+            CreateDestinationSocket(socketsRoot.transform, "Socket_Blue_Crate2", BoxDestinationType.Blue, new Vector3(5f, 0.02f, -3.2f), matSocketBlue);
+            CreateDestinationSocket(socketsRoot.transform, "Socket_Red_Crate2", BoxDestinationType.Red, new Vector3(5f, 0.02f, -2.1f), matSocketRed);
 
-            var door2Comp = door2Frame.AddComponent<DoorInteractable>();
-            door2Comp.Configure(true, ItemId.KeyCard_Level1, new Vector3(0f, -90f, 0f), false);
+            // Sockets para Caja 1 (Pasillo Oeste: mover de -4 a -2.5 [Azul] y a -1.0 [Rojo])
+            CreateDestinationSocket(socketsRoot.transform, "Socket_Blue_Crate1", BoxDestinationType.Blue, new Vector3(-3f, 0.02f, -2.5f), matSocketBlue);
+            CreateDestinationSocket(socketsRoot.transform, "Socket_Red_Crate1", BoxDestinationType.Red, new Vector3(-3f, 0.02f, -1.0f), matSocketRed);
 
-            door2Slab.AddComponent<BoxCollider>();
-            var door2Proxy = door2Slab.AddComponent<DoorInteractionProxy>();
-            door2Proxy.TargetDoor = door2Comp;
-
-            // --- 6. CAJAS EMPUJABLES (PushableBox) ---
             var cratesRoot = new GameObject("[=== PUSHABLE BOXES ===]");
+            var cratePrefab = GetOrCreatePushableBoxPrefab("PushableBox_Puzzle", matCrate1, 25f, 2.4f, 0f);
 
-            // Caja 1 (En el pasillo sur, obstaculizando el acceso hacia la puerta)
-            CreatePushableBox(cratesRoot.transform, "PushableCrate_1", new Vector3(-3f, 0.65f, -4f), new Vector3(1.3f, 1.3f, 1.3f), matCrate1, 20f, 2.8f);
+            // Caja 1 (En el pasillo sur)
+            var crate1 = PrefabUtility.InstantiatePrefab(cratePrefab, cratesRoot.transform) as GameObject;
+            crate1.name = "PushableCrate_1";
+            crate1.transform.position = new Vector3(-3f, 0.4f, -4f);
 
-            // Caja 2 (Otra caja empujable en el área de puzles)
-            CreatePushableBox(cratesRoot.transform, "PushableCrate_2", new Vector3(-1f, 0.65f, -6f), new Vector3(1.3f, 1.3f, 1.3f), matCrate2, 25f, 2.4f);
+            // Caja 2 (Frente a la plataforma elevada: al llevarla al socket rojo se bloquea y despliega el escalón)
+            var crate2 = PrefabUtility.InstantiatePrefab(cratePrefab, cratesRoot.transform) as GameObject;
+            crate2.name = "PushableCrate_2";
+            crate2.transform.position = new Vector3(5f, 0.4f, -4f);
 
-            // Caja 3 (En el pasillo este)
-            CreatePushableBox(cratesRoot.transform, "PushableCrate_3", new Vector3(5f, 0.65f, -4f), new Vector3(1.3f, 1.3f, 1.3f), matCrate1, 18f, 3.0f);
-
-            // --- 7. OBJETOS EN EL SUELO (PICKUPS) ---
+            // --- 7. OBJETOS EN EL SUELO (Pickups Prefabs) ---
             var pickupsRoot = new GameObject("[=== PICKUPS ===]");
 
             // Green Herb en el área sur
-            CreatePickup(pickupsRoot.transform, "Pickup_GreenHerb", ItemId.GreenHerb, new Vector3(-6f, 0.3f, -4f), Color.green);
+            var herbPrefab = GetOrCreatePickupPrefab("Pickup_GreenHerb", ItemId.GreenHerb, Color.green);
+            var herbInst = PrefabUtility.InstantiatePrefab(herbPrefab, pickupsRoot.transform) as GameObject;
+            herbInst.transform.position = new Vector3(-6f, 0.3f, -4f);
 
-            // First Aid Med en el área este
-            CreatePickup(pickupsRoot.transform, "Pickup_FirstAidMed", ItemId.FirstAidMed, new Vector3(8f, 0.3f, -6f), Color.cyan);
+            // First Aid Med en la plataforma de puzle (recompensa por trepar)
+            var medPrefab = GetOrCreatePickupPrefab("Pickup_FirstAidMed", ItemId.FirstAidMed, Color.cyan);
+            var medInst = PrefabUtility.InstantiatePrefab(medPrefab, pickupsRoot.transform) as GameObject;
+            medInst.transform.position = new Vector3(5f, 1.45f, -1.0f);
 
-            // KeyCard_Level1 EN EL SEGUNDO PISO (Mezzanine a Y = 3)
-            // Obliga al jugador a usar las escaleras / verticalidad para conseguir la tarjeta que abre la puerta 2!
-            CreatePickup(pickupsRoot.transform, "Pickup_KeyCard_Level1", ItemId.KeyCard_Level1, new Vector3(0f, 3.3f, 9.5f), Color.yellow);
+            // LLAVE ROJA (RedKeyCard) en el Mezzanine (Y = 3.3)
+            // Obliga al jugador a usar las escaleras / verticalidad para conseguir la llave que abre la puerta roja!
+            var redKeyPrefab = GetOrCreatePickupPrefab("Pickup_Key_Red", ItemId.RedKeyCard, new Color(1f, 0.15f, 0.15f));
+            var keyInst = PrefabUtility.InstantiatePrefab(redKeyPrefab, pickupsRoot.transform) as GameObject;
+            keyInst.transform.position = new Vector3(0f, 3.3f, 9.5f);
 
             // --- 8. ENEMIGO DE PRUEBAS PARA COMBATE ADITIVO (En cámara lateral) ---
             var enemyGo = GameObject.CreatePrimitive(PrimitiveType.Capsule);
@@ -341,37 +316,240 @@ namespace Game.EditorTools {
             wall.GetComponent<Renderer>().material = mat;
         }
 
-        private static void CreatePushableBox(Transform parent, string name, Vector3 pos, Vector3 size, Material mat, float mass, float force) {
-            var box = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            box.name = name;
-            box.transform.SetParent(parent);
-            box.transform.position = pos;
-            box.transform.localScale = size;
-            box.GetComponent<Renderer>().material = mat;
+        private const string PREFAB_DIR = "Assets/Prefabs/Exploration";
 
-            var rb = box.AddComponent<Rigidbody>();
-            rb.mass = mass;
-            rb.linearDamping = 6f;
-            rb.angularDamping = 10f;
-            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
-
-            var pushComp = box.AddComponent<PushableBox>();
-            pushComp.Configure(force, mass, 6f);
+        private static void EnsurePrefabDir() {
+            if (!Directory.Exists(PREFAB_DIR)) {
+                Directory.CreateDirectory(PREFAB_DIR);
+            }
         }
 
-        private static void CreatePickup(Transform parent, string name, ItemId itemId, Vector3 pos, Color color) {
-            var pickup = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            pickup.name = name;
-            pickup.transform.SetParent(parent);
-            pickup.transform.position = pos;
-            pickup.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
-            pickup.GetComponent<Renderer>().material = CreateMaterial($"Mat_Pickup_{itemId}", color);
+        private static GameObject GetOrCreateDoorPrefab(string name, Material slabMat, bool isLocked, ItemId requiredKey, Vector3 openEuler) {
+            EnsurePrefabDir();
+            string path = $"{PREFAB_DIR}/{name}.prefab";
+            AssetDatabase.DeleteAsset(path);
 
-            var col = pickup.GetComponent<BoxCollider>();
+            var root = new GameObject(name);
+            var doorComp = root.AddComponent<DoorInteractable>();
+            doorComp.Configure(isLocked, requiredKey, openEuler, false);
+
+            // Bisagra (Hinge / Pivot)
+            var hinge = new GameObject("Hinge");
+            hinge.transform.SetParent(root.transform, false);
+            hinge.transform.localPosition = Vector3.zero;
+
+            // Batiente de la puerta (DoorSlab)
+            var slab = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            slab.name = "DoorSlab";
+            slab.transform.SetParent(hinge.transform, false);
+            slab.transform.localPosition = new Vector3(openEuler.y >= 0 ? 0.8f : -0.8f, 1.25f, 0f);
+            slab.transform.localScale = new Vector3(1.6f, 2.5f, 0.12f);
+            slab.GetComponent<Renderer>().material = slabMat;
+
+            // Trigger para interacción suave y amplia en el centro de la puerta
+            var trig = root.AddComponent<BoxCollider>();
+            trig.isTrigger = true;
+            trig.center = slab.transform.localPosition;
+            trig.size = new Vector3(2.4f, 2.5f, 1.8f);
+
+            // Jambas decorativas del marco
+            var jambL = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            jambL.name = "Jamb_Left";
+            jambL.transform.SetParent(root.transform, false);
+            jambL.transform.localPosition = new Vector3(-0.85f, 1.25f, 0f);
+            jambL.transform.localScale = new Vector3(0.12f, 2.5f, 0.2f);
+            jambL.GetComponent<Renderer>().material = slabMat;
+            Object.DestroyImmediate(jambL.GetComponent<Collider>());
+
+            var jambR = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            jambR.name = "Jamb_Right";
+            jambR.transform.SetParent(root.transform, false);
+            jambR.transform.localPosition = new Vector3(0.85f, 1.25f, 0f);
+            jambR.transform.localScale = new Vector3(0.12f, 2.5f, 0.2f);
+            jambR.GetComponent<Renderer>().material = slabMat;
+            Object.DestroyImmediate(jambR.GetComponent<Collider>());
+
+            var prefab = PrefabUtility.SaveAsPrefabAsset(root, path);
+            Object.DestroyImmediate(root);
+            return prefab;
+        }
+
+        private static GameObject GetOrCreateLevelTransitionDoorPrefab(string name, Material slabMat, Material darkMat, Vector3 targetSpawn) {
+            EnsurePrefabDir();
+            string path = $"{PREFAB_DIR}/{name}.prefab";
+            AssetDatabase.DeleteAsset(path);
+
+            var root = new GameObject(name);
+            var doorComp = root.AddComponent<DoorInteractable>();
+            doorComp.Configure(false, ItemId.None, new Vector3(0f, 90f, 0f), false, true, targetSpawn);
+
+            // Bisagra (Hinge / Pivot)
+            var hinge = new GameObject("Hinge");
+            hinge.transform.SetParent(root.transform, false);
+            hinge.transform.localPosition = Vector3.zero;
+
+            // Batiente de la puerta (DoorSlab)
+            var slab = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            slab.name = "DoorSlab";
+            slab.transform.SetParent(hinge.transform, false);
+            slab.transform.localPosition = new Vector3(0.8f, 1.25f, 0f);
+            slab.transform.localScale = new Vector3(1.6f, 2.5f, 0.12f);
+            slab.GetComponent<Renderer>().material = slabMat;
+
+            // Fondo negro interior (DarkVoid)
+            var darkVoid = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            darkVoid.name = "DarkVoid_Backdrop";
+            darkVoid.transform.SetParent(root.transform, false);
+            darkVoid.transform.localPosition = new Vector3(0f, 1.25f, 0.45f);
+            darkVoid.transform.localScale = new Vector3(1.8f, 2.5f, 0.25f);
+            darkVoid.GetComponent<Renderer>().material = darkMat;
+            Object.DestroyImmediate(darkVoid.GetComponent<Collider>());
+
+            // Trigger para interacción
+            var trig = root.AddComponent<BoxCollider>();
+            trig.isTrigger = true;
+            trig.center = new Vector3(0f, 1.25f, 0f);
+            trig.size = new Vector3(2.4f, 2.5f, 1.8f);
+
+            // Jambas decorativas del marco
+            var jambL = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            jambL.name = "Jamb_Left";
+            jambL.transform.SetParent(root.transform, false);
+            jambL.transform.localPosition = new Vector3(-0.85f, 1.25f, 0f);
+            jambL.transform.localScale = new Vector3(0.12f, 2.5f, 0.2f);
+            jambL.GetComponent<Renderer>().material = slabMat;
+            Object.DestroyImmediate(jambL.GetComponent<Collider>());
+
+            var jambR = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            jambR.name = "Jamb_Right";
+            jambR.transform.SetParent(root.transform, false);
+            jambR.transform.localPosition = new Vector3(0.85f, 1.25f, 0f);
+            jambR.transform.localScale = new Vector3(0.12f, 2.5f, 0.2f);
+            jambR.GetComponent<Renderer>().material = slabMat;
+            Object.DestroyImmediate(jambR.GetComponent<Collider>());
+
+            var prefab = PrefabUtility.SaveAsPrefabAsset(root, path);
+            Object.DestroyImmediate(root);
+            return prefab;
+        }
+
+        private static GameObject GetOrCreatePushableBoxPrefab(string name, Material mat, float mass, float force, float maxDist) {
+            EnsurePrefabDir();
+            string path = $"{PREFAB_DIR}/{name}.prefab";
+            AssetDatabase.DeleteAsset(path);
+
+            var root = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            root.name = name;
+            root.transform.localScale = new Vector3(1.3f, 0.8f, 1.3f);
+            root.GetComponent<Renderer>().material = mat;
+
+            var rb = root.AddComponent<Rigidbody>();
+            rb.mass = mass;
+            rb.linearDamping = 8f;
+            rb.angularDamping = 10f;
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+            rb.isKinematic = true;
+
+            var push = root.AddComponent<PushableBox>();
+            push.Configure(force, mass, 8f, maxDist);
+
+            // Peldaño escalón (step) para trepar encima, desactivado por defecto
+            var step = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            step.name = "Step_Ledge";
+            step.transform.SetParent(root.transform, false);
+            step.transform.localPosition = new Vector3(0f, -0.2f, -0.7f);
+            step.transform.localScale = new Vector3(1.3f, 0.4f, 0.4f);
+            step.GetComponent<Renderer>().material = mat;
+            step.SetActive(false); // Inactivo hasta que la caja se bloquee en el destino final rojo
+
+            var prefab = PrefabUtility.SaveAsPrefabAsset(root, path);
+            Object.DestroyImmediate(root);
+            return prefab;
+        }
+
+        private static GameObject CreateDestinationSocket(Transform parent, string name, BoxDestinationType type, Vector3 position, Material mat) {
+            var socketGo = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            socketGo.name = name;
+            socketGo.transform.SetParent(parent, false);
+            socketGo.transform.position = position;
+            socketGo.transform.localScale = new Vector3(1.5f, 0.04f, 1.5f);
+            socketGo.GetComponent<Renderer>().material = mat;
+
+            var col = socketGo.GetComponent<BoxCollider>();
+            col.isTrigger = true;
+            col.size = new Vector3(1.2f, 8f, 1.2f);
+
+            var point = socketGo.AddComponent<BoxDestinationPoint>();
+            point.Configure(type, 0.8f);
+
+            return socketGo;
+        }
+
+        private static GameObject GetOrCreateLadderPrefab(string name, Material mat, float height) {
+            EnsurePrefabDir();
+            string path = $"{PREFAB_DIR}/{name}.prefab";
+            var existing = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (existing != null) return existing;
+
+            var root = new GameObject(name);
+            var col = root.AddComponent<BoxCollider>();
+            col.isTrigger = true;
+            col.center = new Vector3(0f, height * 0.5f, 0f);
+            col.size = new Vector3(1.2f, height, 0.8f);
+            root.AddComponent<LadderZone>();
+
+            var poleL = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            poleL.name = "PoleL";
+            poleL.transform.SetParent(root.transform, false);
+            poleL.transform.localPosition = new Vector3(-0.4f, height * 0.5f, 0f);
+            poleL.transform.localScale = new Vector3(0.08f, height, 0.08f);
+            poleL.GetComponent<Renderer>().material = mat;
+            Object.DestroyImmediate(poleL.GetComponent<Collider>());
+
+            var poleR = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            poleR.name = "PoleR";
+            poleR.transform.SetParent(root.transform, false);
+            poleR.transform.localPosition = new Vector3(0.4f, height * 0.5f, 0f);
+            poleR.transform.localScale = new Vector3(0.08f, height, 0.08f);
+            poleR.GetComponent<Renderer>().material = mat;
+            Object.DestroyImmediate(poleR.GetComponent<Collider>());
+
+            int rungs = Mathf.Max(2, Mathf.FloorToInt(height / 0.4f));
+            for (int r = 0; r < rungs; r++) {
+                var rung = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                rung.name = $"Rung_{r}";
+                rung.transform.SetParent(root.transform, false);
+                rung.transform.localPosition = new Vector3(0f, 0.2f + (r * 0.4f), 0f);
+                rung.transform.localScale = new Vector3(0.8f, 0.05f, 0.05f);
+                rung.GetComponent<Renderer>().material = mat;
+                Object.DestroyImmediate(rung.GetComponent<Collider>());
+            }
+
+            var prefab = PrefabUtility.SaveAsPrefabAsset(root, path);
+            Object.DestroyImmediate(root);
+            return prefab;
+        }
+
+        private static GameObject GetOrCreatePickupPrefab(string name, ItemId itemId, Color color) {
+            EnsurePrefabDir();
+            string path = $"{PREFAB_DIR}/{name}.prefab";
+            var existing = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (existing != null) return existing;
+
+            var root = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            root.name = name;
+            root.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            root.GetComponent<Renderer>().material = CreateMaterial($"Mat_Pickup_{itemId}", color);
+
+            var col = root.GetComponent<BoxCollider>();
             col.isTrigger = true;
 
-            var itemComp = pickup.AddComponent<ItemPickup>();
-            itemComp.Configure(itemId);
+            var pickup = root.AddComponent<ItemPickup>();
+            pickup.Configure(itemId);
+
+            var prefab = PrefabUtility.SaveAsPrefabAsset(root, path);
+            Object.DestroyImmediate(root);
+            return prefab;
         }
 
         private static Material CreateMaterial(string name, Color color) {
@@ -414,21 +592,6 @@ namespace Game.EditorTools {
             }
             EditorBuildSettings.scenes = newScenes;
             Debug.Log($"[Build] Registrada escena {scenePath} en EditorBuildSettings.");
-        }
-    }
-
-    /// <summary>
-    /// Proxy para dirigir la interacción del collider del batiente hacia el DoorInteractable raíz
-    /// </summary>
-    public class DoorInteractionProxy : MonoBehaviour, Game.Interfaces.IInteractable {
-        public DoorInteractable TargetDoor;
-
-        public void Interact(ExplorationController player) {
-            if (TargetDoor != null) TargetDoor.Interact(player);
-        }
-
-        public string GetInteractionPrompt() {
-            return TargetDoor != null ? TargetDoor.GetInteractionPrompt() : "Puerta";
         }
     }
 }

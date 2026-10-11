@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 using Game.Core;
 using Game.Items;
 using Game.Units;
@@ -55,6 +56,11 @@ namespace Game.UI {
 
             if (isInv) {
                 _openedTime = Time.unscaledTime;
+                if (_inventoryPanel != null) {
+                    _inventoryPanel.transform.DOKill();
+                    _inventoryPanel.transform.localScale = Vector3.one * 0.92f;
+                    _inventoryPanel.transform.DOScale(1f, 0.18f).SetEase(Ease.OutBack).SetUpdate(true);
+                }
                 RefreshSlots();
             }
         }
@@ -102,6 +108,13 @@ namespace Game.UI {
 
         private void HandleSlotAction(int index, bool isDrop) {
             _selectedSlotIndex = index;
+
+            // Feedback visual de pulsación en el slot
+            if (index >= 0 && index < _slotTexts.Count && _slotTexts[index] != null) {
+                _slotTexts[index].transform.DOKill();
+                _slotTexts[index].transform.DOPunchScale(Vector3.one * 0.18f, 0.15f, 6, 0.5f).SetUpdate(true);
+            }
+
             if (isDrop) {
                 DropSlot(index);
             } else {
@@ -125,6 +138,8 @@ namespace Game.UI {
 
             if (_itemDescriptionText != null) {
                 _itemDescriptionText.text = $"Usado: {item}";
+                _itemDescriptionText.transform.DOKill();
+                _itemDescriptionText.transform.DOPunchScale(Vector3.one * 0.12f, 0.18f, 5, 0.5f).SetUpdate(true);
             }
             RefreshSlots();
         }
@@ -144,6 +159,8 @@ namespace Game.UI {
 
             if (dropped && _itemDescriptionText != null) {
                 _itemDescriptionText.text = $"Soltado al suelo: {item}";
+                _itemDescriptionText.transform.DOKill();
+                _itemDescriptionText.transform.DOPunchScale(Vector3.one * 0.12f, 0.18f, 5, 0.5f).SetUpdate(true);
             }
             RefreshSlots();
         }

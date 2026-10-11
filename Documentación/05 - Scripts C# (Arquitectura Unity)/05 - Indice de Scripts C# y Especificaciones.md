@@ -8,7 +8,7 @@ updated: 2026-10-09
 
 # 05 - Scripts C# (Arquitectura Unity)
 
-Esta sección contiene el índice y especificación de los **31 scripts en C#** implementados y probados en el proyecto de Unity (`Assets/Scripts/`).
+Esta sección contiene el índice y especificación de los **33 scripts en C#** implementados y probados en el proyecto de Unity (`Assets/Scripts/`).
 
 ---
 
@@ -30,11 +30,12 @@ Assets/Scripts/
 ├── Editor/
 │   └── FunctionalTestingSceneBuilder.cs # Constructor automatizado de la escena de pruebas funcionales
 ├── Exploration/
-│   ├── DoorInteractable.cs         # Puertas batientes y corredizas interactivas con soporte para llaves/keycards
-│   ├── ExplorationController.cs    # Movimiento 3D con CharacterController, escaleras, empuje de cajas y New Input System
-│   ├── ItemPickup.cs               # Recogida en suelo con trigger, flotación senoidal y dual pickup
+│   ├── BoxDestinationPoint.cs      # Sockets de puzle en blocking (Azul: intermedio reubicable / Rojo: meta definitiva con fijación permanente)
+│   ├── DoorInteractable.cs         # Puertas batientes con giro en contra del jugador, apertura lenta / de golpe (burst open), llaves y transición a nueva zona oscura
+│   ├── ExplorationController.cs    # Movimiento 3D con CharacterController, escaleras, agarre de cajas con las manos (push/drag) y New Input System
+│   ├── ItemPickup.cs               # Recogida en suelo con trigger, flotación/rotación continua (DOMoveY, DORotate) y secuencia punch de recolección
 │   ├── LadderZone.cs               # Zona de escaleras verticales con modo de escalado dinámico
-│   └── PushableBox.cs              # Cajas físicas empujables con Rigidbody, masa y damping lineal
+│   └── PushableBox.cs              # Cajas arrastrables solo bajo interacción activa, detección de sockets azul/rojo y peldaño escalón desplegable solo en destino final
 ├── Inventory/
 │   └── InventorySystem.cs          # Maletín de 8 casillas, munición (tope 99), consumibles y DropItem en 3D
 ├── Managers/
@@ -44,13 +45,14 @@ Assets/Scripts/
 ├── Scriptables/
 │   ├── ScriptableEnemy.cs          # Parámetros de monstruo: HP, velocidad aguja, hit/crit width
 │   ├── ScriptableHero.cs           # Estadísticas de personaje: HP max, velocidad, retrato
-│   ├── ScriptableItem.cs           # Datos de consumibles, llaves y protecciones
+│   ├── ScriptableItem.cs           # Datos de consumibles, llaves (ItemId con RedKeyCard) y protecciones
 │   └── ScriptableWeapon.cs         # Tipo de arma, munición, daño base y multiplicador crítico
 ├── UI/
-│   ├── CombatUI.cs                 # Canvas translúcido de combate, barra oscilante y feedback de impacto
-│   ├── ExplorationHUD.cs           # Interfaz de salud del héroe activo, arma y munición
+│   ├── CombatUI.cs                 # Canvas translúcido de combate, barra oscilante, sacudidas de cámara (DOShakePosition) y feedback elástico
+│   ├── ExplorationHUD.cs           # Interfaz de salud del héroe activo, arma, munición, sacudida de barra de vida y punch en munición
 │   ├── GameOverUI.cs               # Pantalla de derrota con reintento y reinicio
-│   └── InventoryUI.cs              # Rejilla 8 casillas con debounce (0.25s), atajos 1-8, soltar ítem y cierre limpio
+│   ├── InventoryUI.cs              # Rejilla 8 casillas con debounce (0.25s), apertura pop y punch en selección/uso/soltado con DOTween (unscaledTime)
+│   └── ScreenFader.cs              # Fundido a negro (Fade In/Out) en pantalla completa para transiciones de nivel y cinemáticas estilo Resident Evil
 ├── Units/
 │   ├── EnemyOverworldUnit.cs       # Cáscara de zombie en el overworld (Trigger de combate al contacto)
 │   ├── HeroUnit.cs                 # Cáscara del jugador en exploración con CharacterController
@@ -59,6 +61,21 @@ Assets/Scripts/
     ├── Helpers.cs                  # Extensiones y funciones matemáticas de interpolación
     └── Interfaces.cs               # Contratos desacoplados: IDamageable, IInteractable, ICombatTarget
 ```
+
+---
+
+## 📦 Biblioteca de Prefabs Reutilizables (`Assets/Prefabs/Exploration/`)
+
+Para asegurar la modularidad del diseño de niveles y permitir la creación de habitaciones en el barco mediante *drag-and-drop*, se han consolidado los siguientes Prefabs estandarizados:
+
+1. **`Door_Standard.prefab`**: Marco con bisagra desacoplada (`Hinge`), batiente con colisionador sólido (`DoorSlab`), colisionador trigger de interacción frontal/trasero, giro dinámico en contra del jugador y apertura lenta / de golpe (`DoorInteractable`).
+2. **`Door_Locked_Red.prefab`**: Variante de seguridad con material rojo (`Mat_Test_Door_Red`), cerrojo bloqueado que exige `ItemId.RedKeyCard` para desbloquearse y sonido de pestillo con sacudida.
+3. **`Door_LevelTransition.prefab`**: Puerta de cambio de nivel con fondo negro interior (`DarkVoid_Backdrop`), apertura hacia la oscuridad y fundido a negro (`ScreenFader`) reubicando al jugador.
+4. **`PushableBox_Puzzle.prefab`**: Caja física interactiva (`PushableBox`) con agarre activo de manos, cinemática por defecto (inmóvil frente a colisiones libres), detección de sockets azul/rojo y peldaño escalón (`Step_Ledge`) desplegable exclusivamente al bloquearse en el socket rojo.
+5. **`Ladder_Vertical.prefab`**: Escalera vertical de 3.5m con postes, peldaños equidistantes y trigger `LadderZone` para activación automática del modo de escalada.
+6. **`Pickup_Key_Red.prefab`**: Llave de seguridad roja (`ItemId.RedKeyCard`) con animación de flotación y rotación.
+7. **`Pickup_GreenHerb.prefab`**: Hierba curativa (`ItemId.GreenHerb`).
+8. **`Pickup_FirstAidMed.prefab`**: Botiquín de primeros auxilios (`ItemId.FirstAidMed`).
 
 ---
 
