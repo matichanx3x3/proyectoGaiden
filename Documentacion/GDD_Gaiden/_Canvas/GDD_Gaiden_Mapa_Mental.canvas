@@ -1,0 +1,152 @@
+{
+  "nodes": [
+    {
+      "id": "node_hub",
+      "type": "text",
+      "text": "# \u26e9\ufe0f PROYECTO GAIDEN\\n## Game Design Document (GDD)\\nB\u00f3veda Central de Dise\u00f1o",
+      "x": 400,
+      "y": 300,
+      "width": 360,
+      "height": 180,
+      "color": "1"
+    },
+    {
+      "id": "node_vision",
+      "type": "file",
+      "file": "00 - Visi\u00f3n & Concepto General/00.1 - Resumen Ejecutivo & Game Concept.md",
+      "x": 400,
+      "y": 20,
+      "width": 360,
+      "height": 180,
+      "color": "2"
+    },
+    {
+      "id": "node_narrativa",
+      "type": "file",
+      "file": "01 - Narrativa & Lore/01.1 - Sinopsis & Estructura Argumental.md",
+      "x": 860,
+      "y": 60,
+      "width": 360,
+      "height": 180,
+      "color": "3"
+    },
+    {
+      "id": "node_gameplay",
+      "type": "file",
+      "file": "02 - Jugabilidad & Game Loop/02.1 - Core Game Loop & Din\u00e1micas Clave.md",
+      "x": 920,
+      "y": 300,
+      "width": 360,
+      "height": 180,
+      "color": "4"
+    },
+    {
+      "id": "node_mecanicas",
+      "type": "file",
+      "file": "03 - Mec\u00e1nicas & Sistemas/03.2 - Sistema de Combate, Armas & Habilidades.md",
+      "x": 860,
+      "y": 540,
+      "width": 360,
+      "height": 180,
+      "color": "4"
+    },
+    {
+      "id": "node_personajes",
+      "type": "file",
+      "file": "04 - Personajes & Bestiario/04.1 - \u00cdndice de Personajes Jugables (H\u00e9roes).md",
+      "x": 400,
+      "y": 580,
+      "width": 360,
+      "height": 180,
+      "color": "5"
+    },
+    {
+      "id": "node_levels",
+      "type": "file",
+      "file": "05 - Dise\u00f1o de Niveles (Level Design)/05.1 - Filosof\u00eda de Level Design & Directrices.md",
+      "x": -60,
+      "y": 540,
+      "width": 360,
+      "height": 180,
+      "color": "6"
+    },
+    {
+      "id": "node_ui",
+      "type": "file",
+      "file": "06 - UI, UX & C\u00e1mara/06.1 - Sistema de C\u00e1mara & Modos Din\u00e1micos.md",
+      "x": -120,
+      "y": 300,
+      "width": 360,
+      "height": 180,
+      "color": "2"
+    },
+    {
+      "id": "node_arte",
+      "type": "file",
+      "file": "07 - Arte, Audio & Cinem\u00e1ticas/07.1 - Direcci\u00f3n de Arte, Paleta & Atributos Est\u00e9ticos.md",
+      "x": -60,
+      "y": 60,
+      "width": 360,
+      "height": 180,
+      "color": "3"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "fromNode": "node_hub",
+      "fromSide": "top",
+      "toNode": "node_vision",
+      "toSide": "bottom"
+    },
+    {
+      "id": "e2",
+      "fromNode": "node_hub",
+      "fromSide": "top",
+      "toNode": "node_narrativa",
+      "toSide": "left"
+    },
+    {
+      "id": "e3",
+      "fromNode": "node_hub",
+      "fromSide": "right",
+      "toNode": "node_gameplay",
+      "toSide": "left"
+    },
+    {
+      "id": "e4",
+      "fromNode": "node_hub",
+      "fromSide": "bottom",
+      "toNode": "node_mecanicas",
+      "toSide": "left"
+    },
+    {
+      "id": "e5",
+      "fromNode": "node_hub",
+      "fromSide": "bottom",
+      "toNode": "node_personajes",
+      "toSide": "top"
+    },
+    {
+      "id": "e6",
+      "fromNode": "node_hub",
+      "fromSide": "bottom",
+      "toNode": "node_levels",
+      "toSide": "right"
+    },
+    {
+      "id": "e7",
+      "fromNode": "node_hub",
+      "fromSide": "left",
+      "toNode": "node_ui",
+      "toSide": "right"
+    },
+    {
+      "id": "e8",
+      "fromNode": "node_hub",
+      "fromSide": "top",
+      "toNode": "node_arte",
+      "toSide": "right"
+    }
+  ]
+}
