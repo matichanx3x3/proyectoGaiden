@@ -62,11 +62,11 @@ tags:
 - [[04.5 - Índice de NPCs & Aliados]] — Supervivientes y personal científico.
 
 ### 📂 05 - Diseño de Niveles (Level Design)
-- [[05.1 - Filosofía de Level Design & Directrices]] — Regla Teach/Practice/Master, claustrofobia y guiding.
+- [[05.1 - Filosofía de Level Design & Directrices]] — Regla Teach/Practice/Master, claustrofobia, claroscuro y guiding.
 - [[05.2 - Estructura de Progresión & Hub Central]] — Navegación de la instalación y camarotes seguros.
 - [[05.3 - Curvas de Interés, Ritmo & Tensión]] — Pacing entre valles de puzles y picos de emboscada.
 - [[05.4 - Simbología & Leyenda Oficial de Layouts]] — Símbolos estándar para planos (Entrada, Cajas, Puertas, Sockets).
-- [[05.5 - Índice de Niveles del Proyecto]] — Catálogo oficial de sectores:
+- [[05.5 - Índice de Niveles del Proyecto]] — Catálogo oficial de sectores y asignación cromática subtextual (00 a 05).
   - ⭐ [[05.5 - Nivel 00 - Pruebas Funcionales & Mecánicas]] — Nivel de validación con puzle de cajas, socket rojo y llave.
 
 ### 📂 06 - UI, UX & Cámara
@@ -77,9 +77,10 @@ tags:
 - [[06.5 - Pantallas de Inventario, Carga & Game Over]] — Diseño del maletín de 8 casillas y Game Over.
 
 ### 📂 07 - Arte, Audio & Cinemáticas
-- [[07.1 - Dirección de Arte, Paleta & Atributos Estéticos]] — Iluminación volumétrica sobre metal mojado y sombras densas.
+- [[07.1 - Dirección de Arte, Paleta & Atributos Estéticos]] — Iluminación simbólica de claroscuros y sistema cromático de salud mental (5 trastornos).
 - [[07.2 - Diseño de Audio, Paleta Sonora & Banda Sonora (OST)]] — Audio diegético ambiental y OST adaptativa.
 - [[07.3 - Guión de Cinemáticas, Storyboards & Triggers]] — Encuentros con aliados y aparición del Organismo Alfa.
+
 
 ### 📂 08 - Producción, Tech & Legal
 - [[08.1 - Stack Técnico & Arquitectura del Motor (Unity)]] — Unity 6, URP, Input System y Cinemachine.

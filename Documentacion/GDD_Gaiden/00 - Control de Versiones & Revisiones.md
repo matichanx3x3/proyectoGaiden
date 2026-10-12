@@ -39,6 +39,8 @@ tags:
 | :---: | :---: | :--- | :--- | :--- |
 | **v0.1** | 2026-10-10 | Game Design Team | Estructuración inicial basada en referencias GDD de Toulouse Lautrec, Guía de Apartados GDD y Dragon Ninja. | Lead Designer |
 | **v1.0** | 2026-10-12 | Game Design Team | Implementación completa de la bóveda de Obsidian con 9 secciones modulares, 10 plantillas de trabajo y canvas mental. | Director |
+| **v1.1** | 2026-10-12 | Lead Game Designer | Incorporación del enfoque de salud mental referencial: psicología del color, iluminación de claroscuros por nivel y alegorías de criaturas (00.2, 04.2, 05.1, 05.5, 07.1). | Director |
+
 
 ---
 
