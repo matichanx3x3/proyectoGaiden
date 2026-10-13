@@ -1,0 +1,200 @@
+{
+  "main": {
+    "id": "a7d47bef472a3406",
+    "type": "split",
+    "children": [
+      {
+        "id": "4324474cf6ea7c15",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "13e5de6c42c2511f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "GDD_Gaiden/00 - Visión & Concepto General/00.1 - Resumen Ejecutivo & Game Concept.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "00.1 - Resumen Ejecutivo & Game Concept"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "7eb446b44bb9d1c9",
+    "type": "split",
+    "children": [
+      {
+        "id": "c997d3af0b746599",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "557ae21062da349b",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de archivos"
+            }
+          },
+          {
+            "id": "67fc8195a52c988f",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Buscar"
+            }
+          },
+          {
+            "id": "7e07750c1a5dfb64",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "76b5894828122595",
+    "type": "split",
+    "children": [
+      {
+        "id": "7276465e86e41a6f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "acf3b70beaa9db14",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "GDD_Gaiden/00 - Visión & Concepto General/00.1 - Resumen Ejecutivo & Game Concept.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Enlaces entrantes"
+            }
+          },
+          {
+            "id": "0f2ba596d0e961d6",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "GDD_Gaiden/00 - Visión & Concepto General/00.1 - Resumen Ejecutivo & Game Concept.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Enlaces salientes"
+            }
+          },
+          {
+            "id": "4972671e0cae8bbe",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "b5f933c952a8469f",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas las propiedades"
+            }
+          },
+          {
+            "id": "09b8afbf96d88ed9",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "GDD_Gaiden/00 - Visión & Concepto General/00.1 - Resumen Ejecutivo & Game Concept.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Esquema"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir selector rápido": false,
+      "graph:Abrir vista gráfica": false,
+      "canvas:Crear nuevo lienzo": false,
+      "daily-notes:Abrir la nota de hoy": false,
+      "templates:Insertar plantilla": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Crear nueva base": false
+    }
+  },
+  "active": "13e5de6c42c2511f",
+  "lastOpenFiles": [
+    "GDD_Gaiden/00 - Visión & Concepto General/00.2 - Pilares de Diseño, Aesthetics & USP.md",
+    "GDD_Gaiden/00 - Visión & Concepto General/00.4 - Plataformas & Requisitos Técnicos.md",
+    "GDD_Gaiden/00 - Visión & Concepto General/00.3 - Público Objetivo & Taxonomía de Bartle.md",
+    "GDD_Gaiden/00 - Visión & Concepto General/00.1 - Resumen Ejecutivo & Game Concept.md",
+    "GDD_Gaiden/_Templates/Template - Diseño de Nivel (Level Design & Layout).md"
+  ]
+}
