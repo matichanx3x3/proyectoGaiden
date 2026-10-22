@@ -1,0 +1,36 @@
+project:
+  engine: unity
+  code_root: Assets/Scripts
+  stage: Pre-Production
+
+modes:
+  rigor: standard
+  automation: guided
+
+engine:
+  name: "Unity"
+  version: "6000.3.26f1"
+  language: "C#"
+  rendering: "URP"
+  physics: "PhysX"
+  path: "/Applications/Unity/Hub/Editor/6000.3.26f1/Unity.app/Contents/MacOS/Unity"
+
+specialists:
+  code: "unity-specialist"
+  shader: "unity-shader-specialist"
+  ui: "unity-ui-specialist"
+  additional: ["unity-dots-specialist", "unity-addressables-specialist"]
+
+naming:
+  classes: PascalCase
+  variables: camelCase
+  constants: SCREAMING_SNAKE   # UNVERIFIED — not sourceable from docs/engine-reference/unity/; confirm before relying on it
+  signals: "PascalCase On<Event>"
+  files: PascalCase
+  scenes: PascalCase
+
+commands:
+  build: '"/Applications/Unity/Hub/Editor/6000.3.26f1/Unity.app/Contents/MacOS/Unity" -batchmode -quit -projectPath . -buildTarget StandaloneOSX -buildOSXPlayer Builds/OSX/Gaiden.app'
+  test: '"/Applications/Unity/Hub/Editor/6000.3.26f1/Unity.app/Contents/MacOS/Unity" -batchmode -runTests -projectPath . -testPlatform EditMode -testResults test-results/editmode.xml'
+  run: 'open Builds/OSX/Gaiden.app'
+  smoke: '"/Applications/Unity/Hub/Editor/6000.3.26f1/Unity.app/Contents/MacOS/Unity" -batchmode -quit -projectPath . -logFile -'

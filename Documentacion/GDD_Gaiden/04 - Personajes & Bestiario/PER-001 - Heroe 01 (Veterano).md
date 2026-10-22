@@ -1,20 +1,20 @@
 ---
 tipo: personaje_jugable
 id: PER-001
-nombre: Héroe 01 (El Veterano)
-rol: Líder Táctico / Armas Pesadas
+nombre: El Investigador
+rol: Protagonista Solitario / Superviviente
 estado: Aprobado
-version: "2.0"
+version: "3.0"
 tags:
   - gdd/personaje
   - gdd/jugador
-  - gdd/veterano
+  - gdd/investigador
 ---
 
-# Ficha de Personaje: Héroe 01 (El Veterano)
+# Ficha de Personaje: El Investigador (`PER-001`)
 
 > [!NOTE] Propósito del Documento
-> Especificación de diseño del protagonista principal de Proyecto Gaiden: perfil táctico, motivaciones, estadísticas y sensaciones de control.
+> Especificación del protagonista único de **Amnesis**: perfil psicológico, sensaciones de control, atributos base y curva de progresión.
 
 ---
 
@@ -22,29 +22,43 @@ tags:
 
 | Campo | Valor / Descripción |
 | :--- | :--- |
-| **Identificador / ID** | `PER-001` (Vinculado a `HeroId.Hero_01` en motor) |
-| **Rol en el Equipo** | Líder de misión / Especialista en armamento pesado y contención |
-| **Constitución Física**| Robusta y pesada (1.88 m / 92 kg) |
-| **Puntos de Vida (HP)**| **100 HP** |
-| **Armamento Inicial** | Pistola 9mm reglamentaria + Cuchillo de combate |
-| **Especialidad Táctica**| Manejo de escopeta, alta resistencia al retroceso y potencia física |
+| **Identificador / ID** | `PER-001` (`HeroId.Investigator`) |
+| **Rol en el Juego** | Sujeto desorientado / Investigador en busca de verdad y catarsis |
+| **Constitución Física** | Promedio (1.78 m / 74 kg), sujeto a fatiga física y estrés psíquico |
+| **Puntos de Vida Base (HP)** | **100 HP** (Mejorable hasta 250 HP) |
+| **Defensa Base (DEF)** | **0 DEF** (Mejorable hasta 40% de mitigación pasiva) |
+| **Estamina / Foco (STA)** | **100 STA** (Mejorable hasta 200 STA) |
+| **Armamento Inicial** | Pistola de percusión desgastada (9mm) + Linterna analógica + Radio portátil |
 
 ### 1.1 Motivación Principal
-Comanda la incursión en la instalación marítima aislada tras perderse las comunicaciones con el equipo de avanzada. Su objetivo prioritario es extraer la información del experimento biológico y rescatar a los supervivientes.
+Despierta en una instalación en ruinas con amnesia traumática inducida. Guiado por la voz distante de una radio analógica, debe abrirse paso a través de sectores dominados por las aberraciones de su propia psique, desbloqueando armas y mejorando sus capacidades para confrontar su trauma y escapar.
 
 ---
 
 ## 2. Sensaciones de Control & Game Feel
 
-- **Inercia y Masa:** Presenta pasos firmes y un sonido contundente al desplazarse sobre rejillas metálicas.
-- **Empuje de Objetos:** Es el personaje más eficiente moviendo cajas pesadas (`PushableBox`), manteniendo un ritmo uniforme sin perder estabilidad.
-- **Retículo de Combate:** Su cadencia de tiro con armas de gran calibre (Escopeta, Lanzagranadas) es sólida, absorbiendo el culatazo con menor balanceo.
+- **Inercia y Respiración:** Movimiento deliberado y tenso. Cuando la salud o la estamina son bajas, el paso se vuelve errático y la respiración diegética aumenta de volumen.
+- **Linterna & Cono de Visión:** El cono de luz en URP genera sombras en tiempo real; los monstruos reaccionan a la luz directa o a las pisadas apresuradas.
+- **Mecánica Defensiva:**
+  - **Bloqueo (Guardia):** Coloca el arma en posición defensiva absorbiendo el impacto a costa de estamina.
+  - **Esquiva (Dodge):** Paso lateral rápido con *invulnerability frames* ajustados.
 
 ---
 
 ## 3. Métricas Numéricas en Motor
+
 - **Puntos de Vida Base:** `100 HP`
-- **Velocidad al Caminar:** `3.5 m/s`
-- **Velocidad de Sprint:** `5.5 m/s`
-- **Velocidad Arrastrando Cajas:** `2.0 m/s`
-- **Radio de Colisión:** `0.45 m`
+- **Defensa Base:** `0 DEF`
+- **Estamina Base:** `100 STA`
+- **Tasa de Regeneración de Estamina:** `20 STA / segundo` (tras 1.0 s de retraso sin gastar)
+- **Velocidad al Caminar:** `3.2 m/s`
+- **Velocidad de Sprint:** `5.2 m/s` (consume `10 STA / s`)
+- **Velocidad Arrastrando Cajas/Interactuables:** `1.8 m/s`
+- **Radio de Colisión (Character Controller):** `0.40 m`
+- **Altura de Cápsula:** `1.80 m`
+
+---
+
+## 4. Enlaces Relacionados
+- [[04.1 - Índice de Personajes Jugables (Héroes)]]
+- [[03.2 - Sistema de Combate, Armas & Habilidades]]
